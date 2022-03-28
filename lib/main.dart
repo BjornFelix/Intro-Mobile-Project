@@ -30,7 +30,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -47,29 +46,90 @@ class _MyHomePageState extends State<MyHomePage> {
            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               ElevatedButton(
-          
-            onPressed: () {},
 
-            child: const Text("Admin"),
-            style: ElevatedButton.styleFrom(
-              primary: Colors.red[800],
-              padding: const EdgeInsets.all(100.0),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const AdminRoute()),
+                  );
+                },
+
+                child: const Text("Admin"),
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.red[800],
+                  padding: const EdgeInsets.all(100.0),
               
-            ),
-          ),
-         
-          ElevatedButton(
-          
-            onPressed: () {},
+                ),
+              ),
 
-            child: const Text("Student"),
-            style: ElevatedButton.styleFrom(
-              primary: Colors.red[800],
-              padding: const EdgeInsets.all(100.0)
-            ),
-          ),],)
+              ElevatedButton(
           
+                onPressed: () {
+                },
+
+                child: const Text("Student"),
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.red[800],
+                  padding: const EdgeInsets.all(100.0)
+                ),
+              ),
+          ],
+          )
            
         ));
+  }
+}
+
+class AdminRoute extends StatelessWidget {
+  const AdminRoute({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.red[800],
+        title: const Text('Admin Route'),
+      ),
+      body: Center(
+        child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+
+                child: const Text('Examenvragen aanmaken'),
+                style: ElevatedButton.styleFrom(
+                    primary: Colors.red[800],
+                    padding: const EdgeInsets.fromLTRB(300.0,75.0,300.0,75.0)
+                ),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+
+                child: const Text('Studentenlijst'),
+                style: ElevatedButton.styleFrom(
+                    primary: Colors.red[800],
+                  padding: const EdgeInsets.fromLTRB(338.0,75.0,338.0,75.0)
+                ),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+
+                child: const Text('Wachtwoord Wijzigen'),
+                style: ElevatedButton.styleFrom(
+                    primary: Colors.red[800],
+                  padding: const EdgeInsets.fromLTRB(315.0,75.0,315.0,75.0)
+                ),
+              ),
+            ],
+        )
+      )
+    );
   }
 }
