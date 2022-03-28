@@ -29,47 +29,46 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
 
+
+class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.red[800],
-          title: Text(widget.title),
-        ),
+            backgroundColor: Colors.red[800],
+            title: Row(
+              children: [
+                Image.asset(
+                  'assets/AP_logo_basis.png',
+                  fit: BoxFit.contain,
+                  height: 32,
+                ),
+                Container(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Text(widget.title))
+              ],
+            )),
         body: Center(
-
-
-          child: Row(
-            
-           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              ElevatedButton(
-          
-            onPressed: () {},
-
-            child: const Text("Admin"),
-            style: ElevatedButton.styleFrom(
-              primary: Colors.red[800],
-              padding: const EdgeInsets.all(100.0),
-              
+            child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            ElevatedButton(
+              onPressed: () {},
+              child: const Text("Admin"),
+              style: ElevatedButton.styleFrom(
+                primary: Colors.red[800],
+                padding: const EdgeInsets.all(100.0),
+              ),
             ),
-          ),
-         
-          ElevatedButton(
-          
-            onPressed: () {},
-
-            child: const Text("Student"),
-            style: ElevatedButton.styleFrom(
-              primary: Colors.red[800],
-              padding: const EdgeInsets.all(100.0)
+            ElevatedButton(
+              onPressed: () {},
+              child: const Text("Student"),
+              style: ElevatedButton.styleFrom(
+                  primary: Colors.red[800],
+                  padding: const EdgeInsets.all(100.0)),
             ),
-          ),],)
-          
-           
-        ));
+          ],
+        )));
   }
 }
