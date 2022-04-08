@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+
 void main() {
-  Firebase.initializeApp(options:const FirebaseOptions(apiKey:'AIzaSyDmvRKhdCnPR1ZmUmJ6YoNzFZ9wx4998D0' , appId: 'project-425922472925', messagingSenderId: '425922472925', projectId: 'intromobile-740ff') );
+  Firebase.initializeApp(
+      options: const FirebaseOptions(
+          apiKey: 'AIzaSyDmvRKhdCnPR1ZmUmJ6YoNzFZ9wx4998D0',
+          appId: 'project-425922472925',
+          messagingSenderId: '425922472925',
+          projectId: 'intromobile-740ff'));
   runApp(const MyApp());
 }
 
@@ -75,53 +81,59 @@ class AdminRoute extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.red[800],
-          title: const Text('Admin Route'),
-        ),
+            backgroundColor: Colors.red[800],
+            title: Row(
+             
+              children: [
+                const Text('Admin Route'),
+                Row(mainAxisAlignment: MainAxisAlignment.end,children:[ElevatedButton(onPressed: ()=>FirebaseAuth.instance.signOut(), child: const Text("Sign out"))])
+              
+              ],
+            )),
         body: StreamBuilder<User?>(
-          stream: FirebaseAuth.instance.authStateChanges(),
-          builder: (context,snapshot){
-            if (snapshot.hasData) {
-              return Center(
-            child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: const Text('Examenvragen aanmaken'),
-              style: ElevatedButton.styleFrom(
-                  primary: Colors.red[800],
-                  padding: const EdgeInsets.fromLTRB(300.0, 75.0, 300.0, 75.0)),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: const Text('Studentenlijst'),
-              style: ElevatedButton.styleFrom(
-                  primary: Colors.red[800],
-                  padding: const EdgeInsets.fromLTRB(338.0, 75.0, 338.0, 75.0)),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: const Text('Wachtwoord Wijzigen'),
-              style: ElevatedButton.styleFrom(
-                  primary: Colors.red[800],
-                  padding: const EdgeInsets.fromLTRB(315.0, 75.0, 315.0, 75.0)),
-            ),
-          ],
-        ));
-            }
-            else{
-              return const LoginWidget();
-            }
-          }
-        ) 
-        );
+            stream: FirebaseAuth.instance.authStateChanges(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return Center(
+                    child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: const Text('Examenvragen aanmaken'),
+                      style: ElevatedButton.styleFrom(
+                          primary: Colors.red[800],
+                          padding: const EdgeInsets.fromLTRB(
+                              300.0, 75.0, 300.0, 75.0)),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: const Text('Studentenlijst'),
+                      style: ElevatedButton.styleFrom(
+                          primary: Colors.red[800],
+                          padding: const EdgeInsets.fromLTRB(
+                              338.0, 75.0, 338.0, 75.0)),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: const Text('Wachtwoord Wijzigen'),
+                      style: ElevatedButton.styleFrom(
+                          primary: Colors.red[800],
+                          padding: const EdgeInsets.fromLTRB(
+                              315.0, 75.0, 315.0, 75.0)),
+                    ),
+                  ],
+                ));
+              } else {
+                return const LoginWidget();
+              }
+            }));
   }
 }
 
@@ -150,9 +162,7 @@ class _LoginWidgetState extends State<LoginWidget> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const SizedBox(
-              height: 40
-            ),
+            const SizedBox(height: 40),
             TextField(
                 controller: emailController,
                 cursorColor: Colors.white,
@@ -166,10 +176,10 @@ class _LoginWidgetState extends State<LoginWidget> {
               decoration: const InputDecoration(labelText: "Password"),
               obscureText: true,
             ),
-           const SizedBox(height: 20),
+            const SizedBox(height: 20),
             ElevatedButton.icon(
-                style:
-                    ElevatedButton.styleFrom(minimumSize: const Size.fromHeight(50)),
+                style: ElevatedButton.styleFrom(
+                    minimumSize: const Size.fromHeight(50)),
                 onPressed: signIn,
                 icon: const Icon(
                   Icons.lock_open,
@@ -182,8 +192,10 @@ class _LoginWidgetState extends State<LoginWidget> {
           ],
         ));
   }
-  Future signIn()async{
-    await FirebaseAuth.instance.signInWithEmailAndPassword(email: emailController.text.trim(), password: passwordController.text.trim());
-  }
 
+  Future signIn() async {
+    await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: emailController.text.trim(),
+        password: passwordController.text.trim());
+  }
 }
