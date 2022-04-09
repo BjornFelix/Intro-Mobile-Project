@@ -22,7 +22,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-       colorScheme: ColorScheme.fromSwatch().copyWith(primary: Colors.red[800]),
+        colorScheme:
+            ColorScheme.fromSwatch().copyWith(primary: Colors.red[800]),
       ),
       home: const MyHomePage(title: 'Intro Mobile'),
     );
@@ -43,9 +44,19 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.red[800],
-          title: Text(widget.title),
-        ),
+            backgroundColor: Colors.red[800],
+            title: Row(
+              children: [
+                Image.asset(
+                  'assets/AP_logo_basis.png',
+                  fit: BoxFit.contain,
+                  height: 32,
+                ),
+                Container(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Text(widget.title))
+              ],
+            )),
         body: Center(
             child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
