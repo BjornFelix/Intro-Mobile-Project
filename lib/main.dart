@@ -12,7 +12,6 @@ void main() async {
           appId: 'project-425922472925',
           messagingSenderId: '425922472925',
           projectId: 'intromobile-740ff'));
-  FirebaseFirestore firestore = FirebaseFirestore.instance;
   runApp(const MyApp());
 }
 
