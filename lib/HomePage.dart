@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'Admin/LoginPage.dart';
-
+import 'Student/SelectStudent.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key, required this.title}) : super(key: key);
@@ -32,29 +32,35 @@ class _MyHomePageState extends State<MyHomePage> {
             )),
         body: Center(
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const LoginPage()),
-                    );
-                  },
-                  child: const Text("Admin"),
-                  style: ElevatedButton.styleFrom(
-                    primary: Colors.red[800],
-                    padding: const EdgeInsets.all(100.0),
-                  ),
-                ),
-                ElevatedButton(
-                  onPressed: () {},
-                  child: const Text("Student"),
-                  style: ElevatedButton.styleFrom(
-                      primary: Colors.red[800],
-                      padding: const EdgeInsets.all(100.0)),
-                ),
-              ],
-            )));
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const LoginPage()),
+                );
+              },
+              child: const Text("Admin"),
+              style: ElevatedButton.styleFrom(
+                primary: Colors.red[800],
+                padding: const EdgeInsets.all(100.0),
+              ),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const SelectStudent()),
+                );
+              },
+              child: const Text("Student"),
+              style: ElevatedButton.styleFrom(
+                  primary: Colors.red[800],
+                  padding: const EdgeInsets.all(100.0)),
+            ),
+          ],
+        )));
   }
 }

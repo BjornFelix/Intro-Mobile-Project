@@ -126,7 +126,7 @@ class _ConfirmStudentsState extends State<ConfirmStudentsPage> {
   Future<void> addStudent(List student) {
     return students.add({
       'name': student[1],
-      'lastname': student[0],
+      'firstname': student[0],
       'snumber': student[2]
     }).catchError((error) => throw ("Failed to add user: $error"));
   }
