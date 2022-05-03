@@ -21,8 +21,6 @@ class _SelectStudentState extends State<SelectStudent> {
 
   @override
   Widget build(BuildContext context) {
-  
-  
     return Scaffold(
       appBar: AppBar(
           backgroundColor: Colors.red[800],
@@ -31,50 +29,61 @@ class _SelectStudentState extends State<SelectStudent> {
               Text('Student Login'),
             ],
           )),
-      body:  StreamBuilder<List<Student>>(stream: getStudents(),
-      builder: (context,snapshot){
-        if(snapshot.hasError){
-          return const Text('Something went wrong');
-        }
-       else if (snapshot.hasData) {
-         
-          final students = snapshot.data!;
-          print(students);
-          return ListView(children: students.map((e) => buildStudent(e)).toList());
-
-        }
-        else{
-          return const Center(child: CircularProgressIndicator(),);
-        }
-      } 
-      ),
+      body: StreamBuilder<List<Student>>(
+          stream: getStudents(),
+          builder: (context, snapshot) {
+            if (snapshot.hasError) {
+      
+              return const Text('Something went wrong');
+            } else if (snapshot.hasData) {
+              final students = snapshot.data!;
+            
+              return ListView(
+                  children: students.map((e) => buildStudent(e)).toList());
+            } else {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+          }),
     );
   }
 
-Widget buildStudent(Student student){
-  print("hier");
-  print(student);
- return ListTile(title: Text(student.name + student.firstname),
-  subtitle: Text(student.snumber));
-}
+  Widget buildStudent(Student student) {
+  
+    return ListTile(
+        title: Text(student.name + student.firstname),
+        subtitle: Text(student.snumber));
+  }
+
 // ignore: non_constant_identifier_names
   Stream<List<Student>> getStudents() {
-
-   return FirebaseFirestore.instance.collection('students').snapshots().map((snapshot) => snapshot.docs.map((doc) => Student.fromJson(doc.data())).toList());
- }
- 
+    return FirebaseFirestore.instance.collection('students').snapshots().map(
+        (snapshot) =>
+            snapshot.docs.map((doc) => Student.fromJson(doc.data(),doc.id)).toList());
+  }
 }
 
-class Student{
+class Student {
   String id;
   final String name;
   final String firstname;
   final String snumber;
-  Student({this.id=' ',required this.name,required this.firstname, required this.snumber});
+  Student(
+      {this.id = ' ',
+      required this.name,
+      required this.firstname,
+      required this.snumber});
 
-  Map<String,dynamic> toJson()=>{'id':id,'name':name,'firstname':firstname,'snumber':snumber};
+  Map<String, dynamic> toJson() =>
+      {'id': id, 'name': name, 'firstname': firstname, 'snumber': snumber};
 
-  static Student fromJson(Map<String,dynamic>json)=>Student( id:json['id'],name: json['name'], firstname: json['firstname'],snumber: json['snumber']);
-
-
+  static Student fromJson(Map<String, dynamic> json,String id) { 
+    return Student(
+      id: id,
+      name: json['name'],
+      firstname: json['firstname'],
+      snumber: json['snumber']);
+      }
+      
 }
