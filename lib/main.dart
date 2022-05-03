@@ -7,10 +7,10 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
       options: const FirebaseOptions(
-          apiKey: 'AIzaSyB_qzAnrpMoZAMU-V7v7lLsWDBHk_NhGPY',
-          appId: 'project-605941301331',
-          messagingSenderId: '605941301331',
-          projectId: 'intromobile-cf16f'));
+          apiKey: 'AIzaSyDmvRKhdCnPR1ZmUmJ6YoNzFZ9wx4998D0',
+          appId: 'project-425922472925',
+          messagingSenderId: '425922472925',
+          projectId: 'intromobile-740ff'));
   runApp(const MyApp());
 }
 

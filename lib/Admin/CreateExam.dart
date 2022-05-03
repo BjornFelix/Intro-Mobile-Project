@@ -1,3 +1,4 @@
+import 'package:firstapp/Student/SelectStudent.dart';
 import 'package:flutter/material.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
@@ -6,15 +7,15 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'AddQuestion.dart';
 import 'AdminHome.dart';
 
-class MakeExam extends StatefulWidget {
-  const MakeExam({Key? key, required this.list}) : super(key: key);
+class CreateExam extends StatefulWidget {
+  const CreateExam({Key? key, required this.list, }) : super(key: key);
 
   final List<List> list;
   @override
-  State<MakeExam> createState() => _MakeExamState();
+  State<CreateExam> createState() => _CreateExamState();
 }
 
-class _MakeExamState extends State<MakeExam> {
+class _CreateExamState extends State<CreateExam> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

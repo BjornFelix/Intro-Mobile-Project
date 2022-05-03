@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:firstapp/Student/SelectQuestion.dart';
+import 'package:firstapp/Student/StartExam.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -30,11 +31,7 @@ class _SelectStudentState extends State<SelectStudent> {
               Text('Student Login'),
             ],
           )),
-          floatingActionButton: ElevatedButton(child: Text("vragen"),onPressed:() {
-             Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const SelectQuestion()));
-          },),
+        
       body: StreamBuilder<List<Student>>(
           stream: getStudents(),
           builder: (context, snapshot) {
@@ -58,6 +55,11 @@ class _SelectStudentState extends State<SelectStudent> {
   Widget buildStudent(Student student) {
   
     return ListTile(
+      onTap: () {
+             Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => StartExam(student:student ,)));
+          },
         title: Text(student.name + student.firstname),
         subtitle: Text(student.snumber));
   }

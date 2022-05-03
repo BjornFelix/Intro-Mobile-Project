@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:csv/csv.dart' as csv;
-import 'MakeExam.dart';
+import 'CreateExam.dart';
 
 class AddMultipleChoiceQuestion extends StatefulWidget {
   const AddMultipleChoiceQuestion({Key? key, required this.list})
@@ -79,7 +79,7 @@ class _AddMultipleChoiceQuestionState extends State<AddMultipleChoiceQuestion> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => MakeExam(list: nList)),
+                            builder: (context) => CreateExam(list: nList)),
                       );
                     },
                     child: const Text(
@@ -154,7 +154,7 @@ class _AddOpenQuestionState extends State<AddOpenQuestion> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => MakeExam(list: nList)),
+                            builder: (context) => CreateExam(list: nList)),
                       );
                     },
                     child: const Text(
@@ -233,7 +233,7 @@ class _AddClosedQuestionState extends State<AddClosedQuestion> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => MakeExam(list: nList)),
+                            builder: (context) => CreateExam(list: nList)),
                       );
                     },
                     child: const Text(
@@ -291,7 +291,7 @@ class _AddCodeCorrectionState extends State<AddCodeCorrection> {
 
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => MakeExam(list: nList)),
+              MaterialPageRoute(builder: (context) => CreateExam(list: nList)),
             );
           },
         ),

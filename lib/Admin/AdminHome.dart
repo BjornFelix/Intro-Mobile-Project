@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import 'AddStudent.dart';
 import 'ChangePassword.dart';
-import 'MakeExam.dart';
+import 'CreateExam.dart';
 
 class AdminRoute extends StatelessWidget {
   const AdminRoute({Key? key}) : super(key: key);
@@ -29,7 +29,7 @@ class AdminRoute extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const MakeExam(
+                          builder: (context) => const CreateExam(
                             list: [],
                           )),
                     );
