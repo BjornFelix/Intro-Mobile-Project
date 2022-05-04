@@ -1,5 +1,6 @@
 import 'dart:developer';
-
+import 'dart:html';
+import 'package:location/location.dart';
 import 'package:firstapp/Student/MakeExam.dart';
 import 'package:firstapp/Student/SelectQuestion.dart';
 import 'package:firstapp/Student/SelectStudent.dart';
@@ -18,7 +19,7 @@ class StartExam extends StatefulWidget {
 }
 
 class _StartExamState extends State<StartExam> {
-  
+  Location locationService = new Location();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,13 +46,16 @@ class _StartExamState extends State<StartExam> {
                 children: [
                   ElevatedButton(
                     onPressed: () {
-                      Navigator.push(
+                      LocationData currentLocation = checkServiceEnabled(locationService).then((value) =>   Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (context) => MakeExam(
-                                   exam: Exam(studentId: widget.student.id, studentAnswers: []),
+                                  exam: Exam(
+                                      studentId: widget.student.id,
+                                      studentAnswers: [], lat: value!.latitude, long: value.longitude),
                                 )),
-                      );
+                      )) as LocationData;
+                     
                     },
                     child: const Text('Start Examen'),
                     style: ElevatedButton.styleFrom(
@@ -65,4 +69,39 @@ class _StartExamState extends State<StartExam> {
           ),
         ));
   }
+}
+
+ Future<LocationData?> checkServiceEnabled(Location location) async {
+  var serviceEnabled = await location.serviceEnabled();
+  if (!serviceEnabled) {
+    serviceEnabled = await location.requestService();
+    if (serviceEnabled) {
+     return askPermission(location);
+    }
+  }
+  if (serviceEnabled) {
+     return askPermission(location);
+    }
+    return null;
+  
+}
+
+Future<LocationData?> askPermission(Location location) async {
+  var _permissionGranted = await location.hasPermission();
+  if (_permissionGranted == PermissionStatus.denied) {
+    _permissionGranted = await location.requestPermission();
+    if (_permissionGranted == PermissionStatus.granted) {
+       return getLocation(location);
+    }
+  }
+   if (_permissionGranted == PermissionStatus.granted) {
+       return getLocation(location);
+    }
+    return null;
+}
+
+Future<LocationData> getLocation(Location location) async {
+  var currentLocation = await location.getLocation();
+  print(currentLocation.toString());
+  return currentLocation;
 }

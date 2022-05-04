@@ -1,4 +1,5 @@
 import 'package:firstapp/Student/AnswerQuestion.dart';
+import 'package:firstapp/Student/ShowLocation.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -24,8 +25,12 @@ class _MakeExamState extends State<MakeExam> {
       appBar: AppBar(
           backgroundColor: Colors.red[800],
           title: Row(
-            children: const [
-              Text('Select Question'),
+            children:[
+              const Text('Select Question'),
+              ElevatedButton(onPressed: () {  Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => ShowLocation(lat: widget.exam.lat!, long: widget.exam.long!,))); },
+              child: const Text("Zie locatie"))
             ],
           )),
       floatingActionButton: ElevatedButton(
@@ -115,13 +120,15 @@ class Exam {
 
   final String studentId;
   final List<StudentAnswer> studentAnswers;
-
+  final double? lat;
+  final double? long;
   String id;
 
   Exam(
       {this.id=' ',
       required this.studentId,
-      required this.studentAnswers});
+      required this.studentAnswers,
+      required this.lat,required this.long});
 
   Map<String, dynamic> toJson() {
     String studentjson='';
@@ -133,6 +140,9 @@ return {
         'id': id,
         'studentId': studentId,
         'studentAnswers': studentjson,
+        'latitude':lat,
+        'longitude':long
+
       };
   }
   static Exam fromJson(Map<String, dynamic> json, String id) {
@@ -140,6 +150,8 @@ return {
       id: id,
       studentId: json['studentId'],
       studentAnswers: json['studentAnswers'],
+      lat:json['latitude'],
+      long:json['longitude']
     );
   }
 }
