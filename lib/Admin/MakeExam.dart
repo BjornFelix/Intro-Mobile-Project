@@ -40,7 +40,7 @@ class _MakeExamState extends State<MakeExam> {
                       color: Colors.grey[400],
                       child: Center(
                           child: Text(
-                            'Question: ${widget.list[index][0]}               ${widget.list[index][1]} ',
+                            'Question: ${widget.list[index][0]}               Answer: ${widget.list[index][1]} ',
                             style: const TextStyle(fontSize: 18),
                           )),
                     );
