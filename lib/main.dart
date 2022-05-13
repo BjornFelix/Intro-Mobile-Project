@@ -7,10 +7,17 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
       options: const FirebaseOptions(
+<<<<<<< Updated upstream
           apiKey: 'AIzaSyB_qzAnrpMoZAMU-V7v7lLsWDBHk_NhGPY',
           appId: 'project-605941301331',
           messagingSenderId: '605941301331',
           projectId: 'intromobile-cf16f'));
+=======
+          apiKey: 'AIzaSyBKU9EzeFdI7X6HSuM_qlqzm373RkYGU24',
+          appId: 'project-962124875466',
+          messagingSenderId: '962124875466',
+          projectId: 'intromobile-26f08'));
+>>>>>>> Stashed changes
   runApp(const MyApp());
 }
 
