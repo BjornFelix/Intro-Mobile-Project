@@ -1,23 +1,27 @@
+import 'package:firstapp/Student/AnswerQuestion.dart';
 import 'package:flutter/material.dart';
 import 'package:csv/csv.dart' as csv;
 import 'CreateExam.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AddMultipleChoiceQuestion extends StatefulWidget {
   const AddMultipleChoiceQuestion({Key? key, required this.list})
       : super(key: key);
 
-  final List<List> list;
+  final List<Question> list;
   @override
   State<AddMultipleChoiceQuestion> createState() =>
       _AddMultipleChoiceQuestionState();
 }
+
+ 
 
 class _AddMultipleChoiceQuestionState extends State<AddMultipleChoiceQuestion> {
   final questionController = TextEditingController();
   final optionsController = TextEditingController();
   final answerController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-  late List<List<dynamic>> nList = [];
+  late List<Question> nList = [];
 
   @override
   void dispose() {
@@ -91,11 +95,13 @@ class _AddMultipleChoiceQuestionState extends State<AddMultipleChoiceQuestion> {
                           for (var element in widget.list) {
                             nList.add(element);
                           }
-                          nList.add([
-                            questionController.text.trim(),
-                            answerController.text.trim(),
-                            csvToList(optionsController.text.trim())
-                          ]);
+
+                          Question question = Question(
+                              question: questionController.text.trim(),
+                              answer: answerController.text.trim(),
+                              options: optionsController.text.trim(), type: 'MC');
+
+                          nList.add(question);
 
                           Navigator.push(
                             context,
@@ -124,7 +130,7 @@ class _AddMultipleChoiceQuestionState extends State<AddMultipleChoiceQuestion> {
 class AddOpenQuestion extends StatefulWidget {
   const AddOpenQuestion({Key? key, required this.list}) : super(key: key);
 
-  final List<List> list;
+  final List<Question> list;
   @override
   State<AddOpenQuestion> createState() => _AddOpenQuestionState();
 }
@@ -134,7 +140,7 @@ class _AddOpenQuestionState extends State<AddOpenQuestion> {
   final optionsController = TextEditingController();
   final answerController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-  late List<List<dynamic>> nList = [];
+  late List<Question> nList = [];
 
   @override
   void dispose() {
@@ -181,8 +187,8 @@ class _AddOpenQuestionState extends State<AddOpenQuestion> {
                           for (var element in widget.list) {
                             nList.add(element);
                           }
-                          nList.add(
-                              [questionController.text.trim(), null, null]);
+                          nList.add(Question(
+                              question: questionController.text.trim(), type: 'OQ'));
 
                           Navigator.push(
                             context,
@@ -204,7 +210,7 @@ class _AddOpenQuestionState extends State<AddOpenQuestion> {
 class AddClosedQuestion extends StatefulWidget {
   const AddClosedQuestion({Key? key, required this.list}) : super(key: key);
 
-  final List<List> list;
+  final List<Question> list;
   @override
   State<AddClosedQuestion> createState() => _AddClosedQuestionState();
 }
@@ -213,7 +219,7 @@ class _AddClosedQuestionState extends State<AddClosedQuestion> {
   final questionController = TextEditingController();
   final answerController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-  late List<List<dynamic>> nList = [];
+  late List<Question> nList = [];
 
   @override
   void dispose() {
@@ -274,11 +280,9 @@ class _AddClosedQuestionState extends State<AddClosedQuestion> {
                           for (var element in widget.list) {
                             nList.add(element);
                           }
-                          nList.add([
-                            questionController.text.trim(),
-                            answerController.text.trim(),
-                            null
-                          ]);
+                          nList.add(Question(
+                              question: questionController.text.trim(),
+                              answer: answerController.text.trim(), type: 'CQ'));
 
                           Navigator.push(
                             context,
@@ -300,7 +304,7 @@ class _AddClosedQuestionState extends State<AddClosedQuestion> {
 class AddCodeCorrection extends StatefulWidget {
   const AddCodeCorrection({Key? key, required this.list}) : super(key: key);
 
-  final List<List> list;
+  final List<Question> list;
   @override
   State<AddCodeCorrection> createState() => _AddCodeCorrectionState();
 }
@@ -309,7 +313,7 @@ class _AddCodeCorrectionState extends State<AddCodeCorrection> {
   final questionController = TextEditingController();
   final answerController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-  late List<List<dynamic>> nList = [];
+  late List<Question> nList = [];
 
   @override
   void dispose() {
@@ -336,11 +340,11 @@ class _AddCodeCorrectionState extends State<AddCodeCorrection> {
               for (var element in widget.list) {
                 nList.add(element);
               }
-              nList.add([
-                questionController.text.trim(),
-                answerController.text.trim(),
-                null
-              ]);
+              nList.add(Question(
+                question: questionController.text.trim(),
+                answer: answerController.text.trim(), 
+                type: 'CD',
+              ));
 
               Navigator.push(
                 context,

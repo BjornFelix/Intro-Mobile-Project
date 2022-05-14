@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:csv/csv.dart' as csv;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'AdminHome.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class AddStudents extends StatefulWidget {
   const AddStudents({Key? key}) : super(key: key);
@@ -108,8 +109,14 @@ class _ConfirmStudentsState extends State<ConfirmStudentsPage> {
           child: const Text("Confirm"),
           onPressed: () {
             for (var i = 0; i < widget.list.length; i++) {
-              addStudent(widget.list[i]);
+              try {
+                addStudent(widget.list[i]);
+              } catch (e) {
+                showToast("Failed adding students");
+              }
+              
             }
+            showToast("Added students succesfully");
             Navigator.push(context,
                 MaterialPageRoute(builder: (context) => const AdminRoute()));
           },
@@ -131,6 +138,16 @@ class _ConfirmStudentsState extends State<ConfirmStudentsPage> {
             }));
   }
 
+void showToast(String message) {
+    Fluttertoast.showToast(
+        msg: message,
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0);
+  }
   CollectionReference students =
       FirebaseFirestore.instance.collection('students');
 

@@ -2,7 +2,7 @@ import 'package:firstapp/Student/AnswerQuestion.dart';
 import 'package:firstapp/Student/ShowLocation.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
+import 'package:fluttertoast/fluttertoast.dart';
 class MakeExam extends StatefulWidget {
   const MakeExam({Key? key, required this.exam})
       : super(key: key);
@@ -36,7 +36,13 @@ class _MakeExamState extends State<MakeExam> {
       floatingActionButton: ElevatedButton(
         child: const Text("Dien examen in"),
         onPressed: () {
-addExam(widget.exam);
+          try {
+            addExam(widget.exam).then((value) =>  showToast("Exam was submitted succesfully"));
+           
+          } catch (e) {
+            showToast("Failed to upload exam.");
+          }
+
 
         },
       ),
@@ -83,7 +89,16 @@ addExam(widget.exam);
   }
 }
 
-
+void showToast(String message) {
+    Fluttertoast.showToast(
+        msg: message,
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0);
+  }
 
  CollectionReference examColl =
   FirebaseFirestore.instance.collection('exams');
