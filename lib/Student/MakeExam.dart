@@ -49,7 +49,7 @@ addExam(widget.exam);
               final students = snapshot.data!;
 
               return ListView(
-                  children: students.map((e) => buildStudent(e,widget.exam)).toList());
+                  children: students.map((e) => buildExam(e,widget.exam)).toList());
             } else {
               return const Center(
                 child: CircularProgressIndicator(),
@@ -59,7 +59,7 @@ addExam(widget.exam);
     );
   }
 
-  Widget buildStudent(Question question,Exam exam) {
+  Widget buildExam(Question question,Exam exam) {
     return ListTile(
        onTap: () {
              Navigator.push(
@@ -67,7 +67,7 @@ addExam(widget.exam);
                       MaterialPageRoute(builder: (context) =>  AnswerQuestion(question: question, exam: exam,)));
           },
         title: Text(question.question),
-        subtitle: Text(question.answer + "      " + question.options));
+        subtitle: Text( question.options));
   }
 
 // ignore: non_constant_identifier_names

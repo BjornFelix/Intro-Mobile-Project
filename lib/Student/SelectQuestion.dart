@@ -35,7 +35,7 @@ class _SelectQuestionState extends State<SelectQuestion> {
               final students = snapshot.data!;
 
               return ListView(
-                  children: students.map((e) => buildStudent(e)).toList());
+                  children: students.map((e) => buildQuestion(e)).toList());
             } else {
               return const Center(
                 child: CircularProgressIndicator(),
@@ -45,10 +45,10 @@ class _SelectQuestionState extends State<SelectQuestion> {
     );
   }
 
-  Widget buildStudent(Question question) {
+  Widget buildQuestion(Question question) {
     return ListTile(
         title: Text(question.question),
-        subtitle: Text(question.answer +"      " + question.options ));
+        subtitle: Text(question.options ));
   }
 
 // ignore: non_constant_identifier_names

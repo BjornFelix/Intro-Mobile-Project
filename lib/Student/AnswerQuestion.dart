@@ -109,78 +109,102 @@ showMultipleChoiceQuestion(TextEditingController answerController,
 
 showOpenQuestion(TextEditingController answerController, Question question,
     BuildContext context, Exam examin) {
+  final _formKey = GlobalKey<FormState>();
+
   return SingleChildScrollView(
       padding: const EdgeInsets.fromLTRB(50.0, 10.0, 50.0, 10.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const SizedBox(height: 40),
-          Text(question.question),
-          const SizedBox(height: 20),
-          TextField(
-            controller: answerController,
-            cursorColor: Colors.white,
-            textInputAction: TextInputAction.done,
-            decoration: const InputDecoration(labelText: "Answer"),
-          ),
-          const SizedBox(height: 20),
-          ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                  minimumSize: const Size.fromHeight(50)),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => MakeExam(
-                            exam: updateExam(
-                                answerController.text.trim(), examin, question),
-                          )),
-                );
+      child: Form(
+        key: _formKey,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const SizedBox(height: 40),
+            Text(question.question),
+            const SizedBox(height: 20),
+            TextFormField(
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter some text';
+                }
+                return null;
               },
-              child: const Text(
-                "Add",
-                style: TextStyle(fontSize: 24),
-              ))
-        ],
+              controller: answerController,
+              cursorColor: Colors.white,
+              textInputAction: TextInputAction.done,
+              decoration: const InputDecoration(labelText: "Answer"),
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    minimumSize: const Size.fromHeight(50)),
+                onPressed: () {
+                  if (_formKey.currentState!.validate()) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => MakeExam(
+                                exam: updateExam(answerController.text.trim(),
+                                    examin, question),
+                              )),
+                    );
+                  }
+                },
+                child: const Text(
+                  "Add",
+                  style: TextStyle(fontSize: 24),
+                ))
+          ],
+        ),
       ));
 }
 
 showClosedQuestion(TextEditingController answerController, Question question,
     BuildContext context, Exam examin) {
+  final _formKey = GlobalKey<FormState>();
   return SingleChildScrollView(
       padding: const EdgeInsets.fromLTRB(50.0, 10.0, 50.0, 10.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const SizedBox(height: 40),
-          Text(question.question),
-          const SizedBox(height: 20),
-          TextField(
-            controller: answerController,
-            cursorColor: Colors.white,
-            textInputAction: TextInputAction.done,
-            decoration: const InputDecoration(labelText: "Answer"),
-          ),
-          const SizedBox(height: 20),
-          ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                  minimumSize: const Size.fromHeight(50)),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => MakeExam(
-                            exam: updateExam(
-                                answerController.text.trim(), examin, question),
-                          )),
-                );
-              },
-              child: const Text(
-                "Add",
-                style: TextStyle(fontSize: 24),
-              ))
-        ],
-      ));
+      child: Form(
+          key: _formKey,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const SizedBox(height: 40),
+              Text(question.question),
+              const SizedBox(height: 20),
+              TextFormField(
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter some text';
+                  }
+                  return null;
+                },
+                controller: answerController,
+                cursorColor: Colors.white,
+                textInputAction: TextInputAction.done,
+                decoration: const InputDecoration(labelText: "Answer"),
+              ),
+              const SizedBox(height: 20),
+              ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      minimumSize: const Size.fromHeight(50)),
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => MakeExam(
+                                  exam: updateExam(answerController.text.trim(),
+                                      examin, question),
+                                )),
+                      );
+                    }
+                  },
+                  child: const Text(
+                    "Add",
+                    style: TextStyle(fontSize: 24),
+                  ))
+            ],
+          )));
 }
 
 Exam updateExam(String studentAnswer, Exam examin, Question question) {

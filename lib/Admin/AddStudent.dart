@@ -13,7 +13,7 @@ class AddStudents extends StatefulWidget {
 
 class _AddStudentsState extends State<AddStudents> {
   final csvController = TextEditingController();
-
+  final _formKey = GlobalKey<FormState>();
   @override
   void dispose() {
     csvController.dispose();
@@ -35,43 +35,54 @@ class _AddStudentsState extends State<AddStudents> {
         ),
         body: Container(
             padding: const EdgeInsets.all(200.0),
-            child: Column(
-              children: [
-                TextField(
-                  controller: csvController,
-                  cursorColor: Colors.white,
-                  textInputAction: TextInputAction.done,
-                  decoration: const InputDecoration(
-                      labelText: "Add csv here ( firstname, name, s-number)"),
-                  minLines: 6,
-                  keyboardType: TextInputType.multiline,
-                  maxLines: null,
-                ),
-                const SizedBox(height: 20),
-                Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-                  ElevatedButton(
-                    onPressed: () {
-                      csvToList(csvController.text);
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => ConfirmStudentsPage(
-                              list: csvToList(csvController.text),
-                            )),
-                      );
+            child: Form(
+              key: _formKey,
+              child: Column(
+                children: [
+                  TextFormField(
+                    controller: csvController,
+                    cursorColor: Colors.white,
+                    textInputAction: TextInputAction.done,
+                    decoration: const InputDecoration(
+                        labelText: "Add csv here ( firstname, name, s-number)"),
+                    minLines: 6,
+                    keyboardType: TextInputType.multiline,
+                    maxLines: null,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter some text';
+                      }
+                      return null;
                     },
-                    child: const Text("Submit"),
-                    style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.fromLTRB(10, 10, 10, 10)),
-                  )
-                ])
-              ],
+                  ),
+                  const SizedBox(height: 20),
+                  Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+                    ElevatedButton(
+                      onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                          csvToList(csvController.text);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ConfirmStudentsPage(
+                                      list: csvToList(csvController.text),
+                                    )),
+                          );
+                        }
+                      },
+                      child: const Text("Submit"),
+                      style: ElevatedButton.styleFrom(
+                          padding: const EdgeInsets.fromLTRB(10, 10, 10, 10)),
+                    )
+                  ])
+                ],
+              ),
             )));
   }
 
   List<List> csvToList(String string) {
     csv.CsvToListConverter c =
-    const csv.CsvToListConverter(eol: "\n", fieldDelimiter: ",");
+        const csv.CsvToListConverter(eol: "\n", fieldDelimiter: ",");
     List<List> listcreated = c.convert(string);
     return listcreated;
   }
@@ -113,15 +124,15 @@ class _ConfirmStudentsState extends State<ConfirmStudentsPage> {
                 color: Colors.grey[400],
                 child: Center(
                     child: Text(
-                      'Name: ${widget.list[index][1]} FirstName: ${widget.list[index][0]}  S-Number: ${widget.list[index][2]} ',
-                      style: const TextStyle(fontSize: 18),
-                    )),
+                  'Name: ${widget.list[index][1]} FirstName: ${widget.list[index][0]}  S-Number: ${widget.list[index][2]} ',
+                  style: const TextStyle(fontSize: 18),
+                )),
               );
             }));
   }
 
   CollectionReference students =
-  FirebaseFirestore.instance.collection('students');
+      FirebaseFirestore.instance.collection('students');
 
   Future<void> addStudent(List student) {
     return students.add({

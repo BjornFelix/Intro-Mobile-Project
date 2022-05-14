@@ -16,7 +16,7 @@ class _AddMultipleChoiceQuestionState extends State<AddMultipleChoiceQuestion> {
   final questionController = TextEditingController();
   final optionsController = TextEditingController();
   final answerController = TextEditingController();
-
+  final _formKey = GlobalKey<FormState>();
   late List<List<dynamic>> nList = [];
 
   @override
@@ -39,60 +39,83 @@ class _AddMultipleChoiceQuestionState extends State<AddMultipleChoiceQuestion> {
             )),
         body: SingleChildScrollView(
             padding: const EdgeInsets.fromLTRB(50.0, 10.0, 50.0, 10.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const SizedBox(height: 40),
-                TextField(
-                    controller: questionController,
+            child: Form(
+              key: _formKey,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const SizedBox(height: 40),
+                  TextFormField(
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter some text';
+                        }
+                        return null;
+                      },
+                      controller: questionController,
+                      cursorColor: Colors.white,
+                      textInputAction: TextInputAction.next,
+                      decoration: const InputDecoration(labelText: "Question")),
+                  const SizedBox(height: 4),
+                  TextFormField(
+                    controller: optionsController,
                     cursorColor: Colors.white,
-                    textInputAction: TextInputAction.next,
-                    decoration: const InputDecoration(labelText: "Question")),
-                const SizedBox(height: 4),
-                TextField(
-                  controller: optionsController,
-                  cursorColor: Colors.white,
-                  textInputAction: TextInputAction.done,
-                  decoration: const InputDecoration(labelText: "Options"),
-                ),
-                const SizedBox(height: 20),
-                TextField(
-                  controller: answerController,
-                  cursorColor: Colors.white,
-                  textInputAction: TextInputAction.done,
-                  decoration: const InputDecoration(labelText: "Answer"),
-                ),
-                const SizedBox(height: 20),
-                ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        minimumSize: const Size.fromHeight(50)),
-                    onPressed: () {
-                      for (var element in widget.list) {
-                        nList.add(element);
+                    textInputAction: TextInputAction.done,
+                    decoration: const InputDecoration(labelText: "Options"),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter some text';
                       }
-                      nList.add([
-                        questionController.text.trim(),
-                        answerController.text.trim(),
-                        csvToList(optionsController.text.trim())
-                      ]);
-
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => CreateExam(list: nList)),
-                      );
+                      return null;
                     },
-                    child: const Text(
-                      "Add",
-                      style: TextStyle(fontSize: 24),
-                    ))
-              ],
+                  ),
+                  const SizedBox(height: 20),
+                  TextFormField(
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter some text';
+                      }
+                      return null;
+                    },
+                    controller: answerController,
+                    cursorColor: Colors.white,
+                    textInputAction: TextInputAction.done,
+                    decoration: const InputDecoration(labelText: "Answer"),
+                  ),
+                  const SizedBox(height: 20),
+                  ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          minimumSize: const Size.fromHeight(50)),
+                      onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                          for (var element in widget.list) {
+                            nList.add(element);
+                          }
+                          nList.add([
+                            questionController.text.trim(),
+                            answerController.text.trim(),
+                            csvToList(optionsController.text.trim())
+                          ]);
+
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => CreateExam(list: nList)),
+                          );
+                        }
+                      },
+                      child: const Text(
+                        "Add",
+                        style: TextStyle(fontSize: 24),
+                      ))
+                ],
+              ),
             )));
   }
 
   List<List> csvToList(String string) {
     csv.CsvToListConverter c =
-    const csv.CsvToListConverter(fieldDelimiter: ",");
+        const csv.CsvToListConverter(fieldDelimiter: ",");
     List<List> listcreated = c.convert(string);
     return listcreated;
   }
@@ -110,7 +133,7 @@ class _AddOpenQuestionState extends State<AddOpenQuestion> {
   final questionController = TextEditingController();
   final optionsController = TextEditingController();
   final answerController = TextEditingController();
-
+  final _formKey = GlobalKey<FormState>();
   late List<List<dynamic>> nList = [];
 
   @override
@@ -132,36 +155,48 @@ class _AddOpenQuestionState extends State<AddOpenQuestion> {
             )),
         body: SingleChildScrollView(
             padding: const EdgeInsets.fromLTRB(50.0, 10.0, 50.0, 10.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const SizedBox(height: 60),
-                TextField(
-                    controller: questionController,
-                    cursorColor: Colors.white,
-                    textInputAction: TextInputAction.next,
-                    decoration: const InputDecoration(labelText: "Question")),
-                const SizedBox(height: 20),
-                ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        minimumSize: const Size.fromHeight(50)),
-                    onPressed: () {
-                      for (var element in widget.list) {
-                        nList.add(element);
-                      }
-                      nList.add([questionController.text.trim(), null, null]);
+            child: Form(
+              key: _formKey,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const SizedBox(height: 60),
+                  TextFormField(
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter some text';
+                        }
+                        return null;
+                      },
+                      controller: questionController,
+                      cursorColor: Colors.white,
+                      textInputAction: TextInputAction.next,
+                      decoration: const InputDecoration(labelText: "Question")),
+                  const SizedBox(height: 20),
+                  ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          minimumSize: const Size.fromHeight(50)),
+                      onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                          for (var element in widget.list) {
+                            nList.add(element);
+                          }
+                          nList.add(
+                              [questionController.text.trim(), null, null]);
 
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => CreateExam(list: nList)),
-                      );
-                    },
-                    child: const Text(
-                      "Add",
-                      style: TextStyle(fontSize: 24),
-                    ))
-              ],
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => CreateExam(list: nList)),
+                          );
+                        }
+                      },
+                      child: const Text(
+                        "Add",
+                        style: TextStyle(fontSize: 24),
+                      ))
+                ],
+              ),
             )));
   }
 }
@@ -177,7 +212,7 @@ class AddClosedQuestion extends StatefulWidget {
 class _AddClosedQuestionState extends State<AddClosedQuestion> {
   final questionController = TextEditingController();
   final answerController = TextEditingController();
-
+  final _formKey = GlobalKey<FormState>();
   late List<List<dynamic>> nList = [];
 
   @override
@@ -200,47 +235,64 @@ class _AddClosedQuestionState extends State<AddClosedQuestion> {
             )),
         body: SingleChildScrollView(
             padding: const EdgeInsets.fromLTRB(50.0, 10.0, 50.0, 10.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const SizedBox(height: 40),
-                TextField(
-                    controller: questionController,
-                    cursorColor: Colors.white,
-                    textInputAction: TextInputAction.next,
-                    decoration: const InputDecoration(labelText: "Question")),
-                const SizedBox(height: 20),
-                TextField(
-                  controller: answerController,
-                  cursorColor: Colors.white,
-                  textInputAction: TextInputAction.done,
-                  decoration: const InputDecoration(labelText: "Answer"),
-                ),
-                const SizedBox(height: 20),
-                ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        minimumSize: const Size.fromHeight(50)),
-                    onPressed: () {
-                      for (var element in widget.list) {
-                        nList.add(element);
+            child: Form(
+              key: _formKey,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const SizedBox(height: 40),
+                  TextFormField(
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter some text';
+                        }
+                        return null;
+                      },
+                      controller: questionController,
+                      cursorColor: Colors.white,
+                      textInputAction: TextInputAction.next,
+                      decoration: const InputDecoration(labelText: "Question")),
+                  const SizedBox(height: 20),
+                  TextFormField(
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter some text';
                       }
-                      nList.add([
-                        questionController.text.trim(),
-                        answerController.text.trim(),
-                        null
-                      ]);
-
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => CreateExam(list: nList)),
-                      );
+                      return null;
                     },
-                    child: const Text(
-                      "Add",
-                      style: TextStyle(fontSize: 24),
-                    ))
-              ],
+                    controller: answerController,
+                    cursorColor: Colors.white,
+                    textInputAction: TextInputAction.done,
+                    decoration: const InputDecoration(labelText: "Answer"),
+                  ),
+                  const SizedBox(height: 20),
+                  ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          minimumSize: const Size.fromHeight(50)),
+                      onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                          for (var element in widget.list) {
+                            nList.add(element);
+                          }
+                          nList.add([
+                            questionController.text.trim(),
+                            answerController.text.trim(),
+                            null
+                          ]);
+
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => CreateExam(list: nList)),
+                          );
+                        }
+                      },
+                      child: const Text(
+                        "Add",
+                        style: TextStyle(fontSize: 24),
+                      ))
+                ],
+              ),
             )));
   }
 }
@@ -256,7 +308,7 @@ class AddCodeCorrection extends StatefulWidget {
 class _AddCodeCorrectionState extends State<AddCodeCorrection> {
   final questionController = TextEditingController();
   final answerController = TextEditingController();
-
+  final _formKey = GlobalKey<FormState>();
   late List<List<dynamic>> nList = [];
 
   @override
@@ -280,50 +332,67 @@ class _AddCodeCorrectionState extends State<AddCodeCorrection> {
         floatingActionButton: ElevatedButton(
           child: const Text("Add"),
           onPressed: () {
-            for (var element in widget.list) {
-              nList.add(element);
-            }
-            nList.add([
-              questionController.text.trim(),
-              answerController.text.trim(),
-              null
-            ]);
+            if (_formKey.currentState!.validate()) {
+              for (var element in widget.list) {
+                nList.add(element);
+              }
+              nList.add([
+                questionController.text.trim(),
+                answerController.text.trim(),
+                null
+              ]);
 
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => CreateExam(list: nList)),
-            );
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => CreateExam(list: nList)),
+              );
+            }
           },
         ),
         body: Center(
-            child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  const SizedBox(width: 40),
-                  Expanded(
-                    child: TextField(
-                      controller: questionController,
-                      cursorColor: Colors.white,
-                      textInputAction: TextInputAction.done,
-                      decoration: const InputDecoration(labelText: "Question"),
-                      minLines: 6,
-                      keyboardType: TextInputType.multiline,
-                      maxLines: null,
-                    ),
-                  ),
-                  const SizedBox(width: 20),
-                  Expanded(
-                    child: TextField(
-                      controller: answerController,
-                      cursorColor: Colors.white,
-                      textInputAction: TextInputAction.done,
-                      decoration: const InputDecoration(labelText: "Answer"),
-                      minLines: 6,
-                      keyboardType: TextInputType.multiline,
-                      maxLines: null,
-                    ),
-                  ),
-                  const SizedBox(width: 20),
-                ])));
+            child: Form(
+          key: _formKey,
+          child:
+              Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+            const SizedBox(width: 40),
+            Expanded(
+              child: TextFormField(
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter some text';
+                  }
+                  return null;
+                },
+                controller: questionController,
+                cursorColor: Colors.white,
+                textInputAction: TextInputAction.done,
+                decoration: const InputDecoration(labelText: "Question"),
+                minLines: 6,
+                keyboardType: TextInputType.multiline,
+                maxLines: null,
+              ),
+            ),
+            const SizedBox(width: 20),
+            Expanded(
+              child: TextFormField(
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter some text';
+                  }
+                  return null;
+                },
+                controller: answerController,
+                cursorColor: Colors.white,
+                textInputAction: TextInputAction.done,
+                decoration: const InputDecoration(labelText: "Answer"),
+                minLines: 6,
+                keyboardType: TextInputType.multiline,
+                maxLines: null,
+              ),
+            ),
+            const SizedBox(width: 20),
+          ]),
+        )));
   }
 }

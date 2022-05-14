@@ -12,7 +12,7 @@ class ChangePasswordWidget extends StatefulWidget {
 class _ChangePasswordWidgetState extends State<ChangePasswordWidget> {
   final passwordController = TextEditingController();
   final repeatController = TextEditingController();
-
+  final _formKey = GlobalKey<FormState>();
   @override
   void dispose() {
     repeatController.dispose();
@@ -32,42 +32,60 @@ class _ChangePasswordWidgetState extends State<ChangePasswordWidget> {
             )),
         body: SingleChildScrollView(
             padding: const EdgeInsets.all(16),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const SizedBox(height: 40),
-                TextField(
-                  controller: repeatController,
-                  cursorColor: Colors.white,
-                  textInputAction: TextInputAction.next,
-                  decoration: const InputDecoration(labelText: "New password"),
-                  obscureText: true,
-                ),
-                const SizedBox(height: 4),
-                TextField(
-                  controller: passwordController,
-                  cursorColor: Colors.white,
-                  textInputAction: TextInputAction.done,
-                  decoration:
-                  const InputDecoration(labelText: "Repeat password"),
-                  obscureText: true,
-                ),
-                const SizedBox(height: 20),
-                ElevatedButton.icon(
-                    style: ElevatedButton.styleFrom(
-                        minimumSize: const Size.fromHeight(50)),
-                    onPressed: () {
-                      updatePAssword();
+            child: Form(
+              key: _formKey,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const SizedBox(height: 40),
+                  TextFormField(
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter some text';
+                      }
+                      return null;
                     },
-                    icon: const Icon(
-                      Icons.lock_open,
-                      size: 32,
-                    ),
-                    label: const Text(
-                      "Update password",
-                      style: TextStyle(fontSize: 24),
-                    ))
-              ],
+                    controller: repeatController,
+                    cursorColor: Colors.white,
+                    textInputAction: TextInputAction.next,
+                    decoration:
+                        const InputDecoration(labelText: "New password"),
+                    obscureText: true,
+                  ),
+                  const SizedBox(height: 4),
+                  TextFormField(
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter some text';
+                      }
+                      return null;
+                    },
+                    controller: passwordController,
+                    cursorColor: Colors.white,
+                    textInputAction: TextInputAction.done,
+                    decoration:
+                        const InputDecoration(labelText: "Repeat password"),
+                    obscureText: true,
+                  ),
+                  const SizedBox(height: 20),
+                  ElevatedButton.icon(
+                      style: ElevatedButton.styleFrom(
+                          minimumSize: const Size.fromHeight(50)),
+                      onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                          updatePAssword();
+                        }
+                      },
+                      icon: const Icon(
+                        Icons.lock_open,
+                        size: 32,
+                      ),
+                      label: const Text(
+                        "Update password",
+                        style: TextStyle(fontSize: 24),
+                      ))
+                ],
+              ),
             )));
   }
 
