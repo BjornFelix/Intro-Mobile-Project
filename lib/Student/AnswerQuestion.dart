@@ -1,22 +1,46 @@
+import 'dart:html';
+
 import 'package:firstapp/Student/MakeExam.dart';
 import 'package:flutter/material.dart';
 import 'package:csv/csv.dart' as csv;
 
 class AnswerQuestion extends StatefulWidget {
-  const AnswerQuestion({Key? key, required this.exam, required this.question})
+  const AnswerQuestion({Key? key, required this.exam, required this.question, required this.counter})
       : super(key: key);
-
+final int counter;
   final Question question;
   final Exam exam;
   @override
   State<AnswerQuestion> createState() => _AnswerQuestionState();
 }
 
-class _AnswerQuestionState extends State<AnswerQuestion> {
+class _AnswerQuestionState extends State<AnswerQuestion> with WidgetsBindingObserver {
   final answerController = TextEditingController();
+
+int closedAppCounter=0;
+  @override 
+  initState(){
+    super.initState();
+    WidgetsBinding.instance?.addObserver(this);
+  }
+
+ 
+@override
+void didChangeAppLifecycleState(AppLifecycleState state){
+  super.didChangeAppLifecycleState(state);
+  if (state==AppLifecycleState.inactive||state==AppLifecycleState.detached) {
+    return;
+  }
+  final isbackGround = state==AppLifecycleState.paused;
+if (isbackGround) {
+  closedAppCounter+=1;
+}
+
+}
 
   @override
   void dispose() {
+     WidgetsBinding.instance?.removeObserver(this);
     answerController.dispose();
     super.dispose();
   }
@@ -32,30 +56,31 @@ class _AnswerQuestionState extends State<AnswerQuestion> {
               ],
             )),
         body: checkQuestionType(
-            answerController, widget.question, context, widget.exam));
+            answerController, widget.question, context, widget.exam,widget.counter));
   }
-}
+
 
 checkQuestionType(TextEditingController answerController, Question question,
-    BuildContext context, Exam examin) {
-  if (question.type== 'OQ ') {
-    return showOpenQuestion(answerController, question, context, examin);
-  } else if (question.type== 'MC') {
+    BuildContext context, Exam examin,int counter) {
+  if (question.type == 'OQ ') {
+    return showOpenQuestion(answerController, question, context, examin,counter);
+  } else if (question.type == 'MC') {
     return showMultipleChoiceQuestion(
-        answerController, question, context, examin);
-  }else if (question.type=='CD') {
-    return showCodeCorrection(answerController, question, context, examin);
+        answerController, question, context, examin,counter);
+  } else if (question.type == 'CD') {
+    return showCodeCorrection(answerController, question, context, examin,counter);
   }
 
-  return showOpenQuestion(answerController, question, context, examin);
+  return showOpenQuestion(answerController, question, context, examin,counter);
 }
 
 showMultipleChoiceQuestion(TextEditingController answerController,
-    Question question, BuildContext context, Exam examin) {
+    Question question, BuildContext context, Exam examin,int counter) {
   String selectedAnswer = ' ';
 
-  csv.CsvToListConverter c = const csv.CsvToListConverter(fieldDelimiter: ",");
-  List listcreated = c.convert(question.options);
+  csv.CsvToListConverter c = const csv.CsvToListConverter(fieldDelimiter: ";");
+  List listcreated = c.convert(question.options)[0];
+  print(listcreated);
 
   setSelectedAnswer(String answer) {
     selectedAnswer = answer;
@@ -64,16 +89,16 @@ showMultipleChoiceQuestion(TextEditingController answerController,
   final _formKey = GlobalKey<FormState>();
   List<Widget> createRadioListAnswers() {
     List<Widget> widgets = [];
-    for (String answer in listcreated) {
+    for (var answer in listcreated) {
       widgets.add(
         RadioListTile(
-          value: answer,
-          groupValue: selectedAnswer,
-          title: Text(answer),
+          value: answer.toString(),
+          groupValue: selectedAnswer.toString(),
+          title: Text(answer.toString()),
           onChanged: (currentAnswer) {
             setSelectedAnswer(currentAnswer.toString());
           },
-          selected: selectedAnswer == answer,
+          selected: selectedAnswer.toString() == answer.toString(),
           activeColor: Colors.green,
         ),
       );
@@ -98,7 +123,7 @@ showMultipleChoiceQuestion(TextEditingController answerController,
                     MaterialPageRoute(
                         builder: (context) => MakeExam(
                               exam: updateExam(answerController.text.trim(),
-                                  examin, question),
+                                  examin, question), counter:widget.counter+closedAppCounter ,
                             )),
                   );
                 }
@@ -114,7 +139,7 @@ showMultipleChoiceQuestion(TextEditingController answerController,
 }
 
 showOpenQuestion(TextEditingController answerController, Question question,
-    BuildContext context, Exam examin) {
+    BuildContext context, Exam examin,int counter) {
   final _formKey = GlobalKey<FormState>();
 
   return SingleChildScrollView(
@@ -150,7 +175,7 @@ showOpenQuestion(TextEditingController answerController, Question question,
                       MaterialPageRoute(
                           builder: (context) => MakeExam(
                                 exam: updateExam(answerController.text.trim(),
-                                    examin, question),
+                                    examin, question), counter: widget.counter+closedAppCounter,
                               )),
                     );
                   }
@@ -165,7 +190,7 @@ showOpenQuestion(TextEditingController answerController, Question question,
 }
 
 showClosedQuestion(TextEditingController answerController, Question question,
-    BuildContext context, Exam examin) {
+    BuildContext context, Exam examin,int counter) {
   final _formKey = GlobalKey<FormState>();
   return SingleChildScrollView(
       padding: const EdgeInsets.fromLTRB(50.0, 10.0, 50.0, 10.0),
@@ -200,7 +225,7 @@ showClosedQuestion(TextEditingController answerController, Question question,
                         MaterialPageRoute(
                             builder: (context) => MakeExam(
                                   exam: updateExam(answerController.text.trim(),
-                                      examin, question),
+                                      examin, question), counter: widget.counter+closedAppCounter,
                                 )),
                       );
                     }
@@ -214,7 +239,7 @@ showClosedQuestion(TextEditingController answerController, Question question,
 }
 
 showCodeCorrection(TextEditingController answerController, Question question,
-    BuildContext context, Exam examin) {
+    BuildContext context, Exam examin ,int counter) {
   final _formKey = GlobalKey<FormState>();
   final questionController = TextEditingController();
   final answerController = TextEditingController();
@@ -267,7 +292,7 @@ showCodeCorrection(TextEditingController answerController, Question question,
                 MaterialPageRoute(
                     builder: (context) => MakeExam(
                           exam: updateExam(
-                              answerController.text.trim(), examin, question),
+                              answerController.text.trim(), examin, question), counter: widget.counter+closedAppCounter,
                         )),
               );
             }
@@ -290,45 +315,57 @@ Exam updateExam(String studentAnswer, Exam examin, Question question) {
     updatedExam.studentAnswers.add(element);
   });
   StudentAnswer answerQuestion =
-      StudentAnswer(questionId: question.id, answer: studentAnswer);
-
+      StudentAnswer(question: question, answer: studentAnswer);
+answerQuestion.toJson();
   updatedExam.studentAnswers.add(answerQuestion);
   return updatedExam;
 }
-
+}
 class Question {
   String id;
   final String question;
   final String answer;
   final String options;
   final String type;
+  final int points;
   Question(
       {this.id = ' ',
       required this.question,
       this.answer = ' ',
       this.options = ' ',
-      required this.type});
+      required this.type,
+      this.points = 0});
 
-  Map<String, dynamic> toJson() =>
-      {'id': id, 'question': question, 'answer': answer, 'options': options,'type':type};
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'question': question,
+        'answer': answer,
+        'options': options,
+        'type': type,
+        'points': points
+      };
 
   static Question fromJson(Map<String, dynamic> json, String id) {
-   
     if (json['answer'] == null) {
-      return Question(id: id, question: json['question'],type: json['type']);
+      return Question(
+          id: id,
+          question: json['question'],
+          type: json['type'],
+          points: json['points']);
     } else if (json['options'] == null) {
       return Question(
-        id: id,
-        question: json['question'],
-        answer: json['answer'],
-        type: json['type']
-      );
+          id: id,
+          question: json['question'],
+          answer: json['answer'],
+          type: json['type'],
+          points: json['points']);
     }
     return Question(
         id: id,
         question: json['question'],
         answer: json['answer'],
         options: json['options'],
-        type: json['type']);
+        type: json['type'],
+        points: json['points']);
   }
 }

@@ -52,7 +52,7 @@ class _StartExamState extends State<StartExam> {
                             builder: (context) => MakeExam(
                                   exam: Exam(
                                       studentId: widget.student.id,
-                                      studentAnswers: [], lat: value!.latitude, long: value.longitude),
+                                      studentAnswers: [], lat: value!.latitude, long: value.longitude), counter: 0,
                                 )),
                       )) as LocationData;
                      

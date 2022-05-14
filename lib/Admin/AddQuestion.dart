@@ -343,7 +343,7 @@ class _AddCodeCorrectionState extends State<AddCodeCorrection> {
               nList.add(Question(
                 question: questionController.text.trim(),
                 answer: answerController.text.trim(), 
-                type: 'CD',
+                type: 'CC',
               ));
 
               Navigator.push(

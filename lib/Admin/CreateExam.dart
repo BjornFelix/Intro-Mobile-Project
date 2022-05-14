@@ -43,7 +43,12 @@ getQuestions().then((value) => print(value) );
           title: const Text('Add exam questions'),
           actions: [
             ElevatedButton(
-                onPressed: () => FirebaseAuth.instance.signOut(),
+                onPressed: () =>{ FirebaseAuth.instance.signOut().then((value) =>   Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                const AdminRoute()),
+                      ))},
                 child: const Text("Sign out")),
           ],
         ),
