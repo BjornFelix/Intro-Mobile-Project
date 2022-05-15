@@ -11,7 +11,9 @@ class AdminRoute extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.red[800],
           title: const Text('Admin Route'),
@@ -87,6 +89,6 @@ class AdminRoute extends StatelessWidget {
                       fontSize: 24, fontWeight: FontWeight.bold)),
             ),
           ],
-        )));
+        ))));
   }
 }

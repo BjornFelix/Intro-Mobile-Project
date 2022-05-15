@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'AdminHome.dart';
 import 'AdminRoute.dart';
 
 class ConfirmStudentsPage extends StatefulWidget {
@@ -14,7 +15,15 @@ class ConfirmStudentsPage extends StatefulWidget {
 class _ConfirmStudentsState extends State<ConfirmStudentsPage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return WillPopScope(
+        onWillPop: () async {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => const AdminRouteState()));
+          return false;
+        },
+        child:  Scaffold(
         appBar: AppBar(
           title: const Text('Studenten bevestigen'),
         ),
@@ -45,7 +54,7 @@ class _ConfirmStudentsState extends State<ConfirmStudentsPage> {
                       style: const TextStyle(fontSize: 18),
                     )),
               );
-            }));
+            })));
   }
 
   CollectionReference students =

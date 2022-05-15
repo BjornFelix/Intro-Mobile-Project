@@ -2,6 +2,7 @@ import 'package:firstapp/Admin/LoginPage.dart';
 import 'package:firstapp/Student/AnswerQuestion.dart';
 import 'package:flutter/material.dart';
 import 'package:csv/csv.dart' as csv;
+import 'AdminHome.dart';
 import 'CreateExam.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -34,7 +35,15 @@ class _AddMultipleChoiceQuestionState extends State<AddMultipleChoiceQuestion> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return WillPopScope(
+        onWillPop: () async {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => const AdminRoute()));
+      return false;
+    },
+    child: Scaffold(
         appBar: AppBar(
             backgroundColor: Colors.red[800],
             title: Row(
@@ -127,7 +136,7 @@ class _AddMultipleChoiceQuestionState extends State<AddMultipleChoiceQuestion> {
                       ))
                 ],
               ),
-            )));
+            ))));
   }
 
   List<List> csvToList(String string) {
@@ -162,7 +171,15 @@ class _AddOpenQuestionState extends State<AddOpenQuestion> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return WillPopScope(
+        onWillPop: () async {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => const AdminRoute()));
+      return false;
+    },
+      child: Scaffold(
         appBar: AppBar(
             backgroundColor: Colors.red[800],
             title: Row(
@@ -229,7 +246,7 @@ class _AddOpenQuestionState extends State<AddOpenQuestion> {
                       ))
                 ],
               ),
-            )));
+            ))));
   }
 }
 
@@ -257,7 +274,15 @@ class _AddClosedQuestionState extends State<AddClosedQuestion> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return WillPopScope(
+        onWillPop: () async {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => const AdminRoute()));
+      return false;
+    },
+    child: Scaffold(
         appBar: AppBar(
             backgroundColor: Colors.red[800],
             title: Row(
@@ -336,7 +361,7 @@ class _AddClosedQuestionState extends State<AddClosedQuestion> {
                       ))
                 ],
               ),
-            )));
+            ))));
   }
 }
 
@@ -364,7 +389,15 @@ class _AddCodeCorrectionState extends State<AddCodeCorrection> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return WillPopScope(
+        onWillPop: () async {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => const AdminRoute()));
+      return false;
+    },
+    child:  Scaffold(
         appBar: AppBar(
             backgroundColor: Colors.red[800],
             title: Row(
@@ -447,6 +480,6 @@ class _AddCodeCorrectionState extends State<AddCodeCorrection> {
             ),
             const SizedBox(width: 20),
           ]),
-        )));
+        ))));
   }
 }

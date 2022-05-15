@@ -94,5 +94,5 @@ class Question {
         question: json['question'],
         answer: json['answer'],
         options: json['options']);
-  }
+   }
 }

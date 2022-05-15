@@ -119,7 +119,9 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<User?>(
+    return WillPopScope(
+        onWillPop: () async => false,
+      child: StreamBuilder<User?>(
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
@@ -130,6 +132,6 @@ class LoginPage extends StatelessWidget {
             return const LoginWidget();
           
           }
-        });
+        }));
   }
 }
