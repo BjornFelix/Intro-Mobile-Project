@@ -41,10 +41,18 @@ class _ChangePasswordWidgetState extends State<ChangePasswordWidget> {
                   const SizedBox(height: 40),
                   TextFormField(
                     validator: (value) {
+                      String  pattern = r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$';
+                      RegExp regexp = RegExp(pattern);
                       if (value == null || value.isEmpty) {
                         return 'Vul tekst in';
                       }
-                      return null;
+                      if(value != passwordController.text) {
+                        return 'Wachtwoord is niet gelijk';
+                      }
+                      if(regexp.hasMatch(value)) {
+                        return null;
+                      }
+                      return 'Wachtwoord moet minstens 1 hoofdletter, 1 lowercase letter, 1 getal, en 1 speciale teken bevatten ( ! @ # & * ~ )';
                     },
                     controller: repeatController,
                     cursorColor: Colors.white,
@@ -58,6 +66,9 @@ class _ChangePasswordWidgetState extends State<ChangePasswordWidget> {
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Vul tekst in';
+                      }
+                      if(value != repeatController.text) {
+                        return 'Wachtwoord is niet gelijk';
                       }
                       return null;
                     },
