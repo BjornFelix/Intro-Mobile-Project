@@ -73,6 +73,7 @@ class _MakeExamState extends State<MakeExam> with WidgetsBindingObserver {
           try {
             addExam(widget.exam)
                 .then((value) => showToast("Exam was submitted succesfully"))
+                .then((value) => print(widget.exam.studentAnswers))
                 .then((value) => Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -182,7 +183,7 @@ class Exam {
   final double? long;
   final int score;
   final bool corrected;
-  late final int leftExam;
+  late int leftExam;
 
   String id;
 

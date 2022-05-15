@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'AdminHome.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
+
 class AddStudents extends StatefulWidget {
   const AddStudents({Key? key}) : super(key: key);
 
@@ -15,6 +16,7 @@ class AddStudents extends StatefulWidget {
 class _AddStudentsState extends State<AddStudents> {
   final csvController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+
   @override
   void dispose() {
     csvController.dispose();
@@ -25,6 +27,7 @@ class _AddStudentsState extends State<AddStudents> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        resizeToAvoidBottomInset: false,
         appBar: AppBar(
           backgroundColor: Colors.red[800],
           title: const Text('Add Students'),
@@ -35,9 +38,10 @@ class _AddStudentsState extends State<AddStudents> {
           ],
         ),
         body: Container(
-            padding: const EdgeInsets.all(200.0),
-            child: Form(
-              key: _formKey,
+          padding: const EdgeInsets.all(200.0),
+          child: Form(
+            key: _formKey,
+            child: SingleChildScrollView(
               child: Column(
                 children: [
                   TextFormField(
@@ -78,7 +82,9 @@ class _AddStudentsState extends State<AddStudents> {
                   ])
                 ],
               ),
-            )));
+            ),
+          ),
+        ));
   }
 
   List<List> csvToList(String string) {
@@ -86,7 +92,6 @@ class _AddStudentsState extends State<AddStudents> {
         const csv.CsvToListConverter(eol: "\n", fieldDelimiter: ",");
     List<List> listcreated = c.convert(string);
 
-    
     return listcreated;
   }
 }
@@ -116,7 +121,6 @@ class _ConfirmStudentsState extends State<ConfirmStudentsPage> {
               } catch (e) {
                 showToast("Failed adding students");
               }
-              
             }
             showToast("Added students succesfully");
             Navigator.push(context,
@@ -140,7 +144,7 @@ class _ConfirmStudentsState extends State<ConfirmStudentsPage> {
             }));
   }
 
-void showToast(String message) {
+  void showToast(String message) {
     Fluttertoast.showToast(
         msg: message,
         toastLength: Toast.LENGTH_SHORT,
@@ -150,6 +154,7 @@ void showToast(String message) {
         textColor: Colors.white,
         fontSize: 16.0);
   }
+
   CollectionReference students =
       FirebaseFirestore.instance.collection('students');
 
