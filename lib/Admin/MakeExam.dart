@@ -23,8 +23,18 @@ class _MakeExamState extends State<MakeExam> {
           title: const Text('Add exam questions'),
           actions: [
             ElevatedButton(
+<<<<<<< Updated upstream:lib/Admin/MakeExam.dart
                 onPressed: () => FirebaseAuth.instance.signOut(),
                 child: const Text("Sign out")),
+=======
+                onPressed: () =>{ FirebaseAuth.instance.signOut().then((value) =>   Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                const AdminRoute()),
+                      ))},
+                child: const Text("Log uit")),
+>>>>>>> Stashed changes:lib/Admin/CreateExam.dart
           ],
         ),
         body: Column(
@@ -32,6 +42,33 @@ class _MakeExamState extends State<MakeExam> {
             Expanded(
               child: ListView.builder(
                   padding: const EdgeInsets.all(8),
+<<<<<<< Updated upstream:lib/Admin/MakeExam.dart
+=======
+                  itemCount: dbquestion.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Container(
+                        height: 50,
+                        margin: const EdgeInsets.all(2),
+                        color: Colors.grey[400],
+                        child: Row(
+                          children: [
+                            Center(
+                                child: Text(
+                              'Question: ${dbquestion[index].question}       Answer: ${dbquestion[index].answer} ',
+                              style: const TextStyle(fontSize: 18),
+                            )),
+                            ElevatedButton.icon(
+                                onPressed: deleteDBQuestion(dbquestion[index]),
+                                icon: const Icon(Icons.delete),
+                                label: const Text("Delete"))
+                          ],
+                        ));
+                  }),
+            ),
+            Expanded(
+              child: ListView.builder(
+                  padding: const EdgeInsets.all(8),
+>>>>>>> Stashed changes:lib/Admin/CreateExam.dart
                   itemCount: widget.list.length,
                   itemBuilder: (BuildContext context, int index) {
                     return Container(
@@ -40,9 +77,15 @@ class _MakeExamState extends State<MakeExam> {
                       color: Colors.grey[400],
                       child: Center(
                           child: Text(
+<<<<<<< Updated upstream:lib/Admin/MakeExam.dart
                             'Question: ${widget.list[index][0]}               Answer: ${widget.list[index][1]} ',
                             style: const TextStyle(fontSize: 18),
                           )),
+=======
+                        'Question: ${widget.list[index].question}      Answer: ${widget.list[index].answer} ',
+                        style: const TextStyle(fontSize: 18),
+                      )),
+>>>>>>> Stashed changes:lib/Admin/CreateExam.dart
                     );
                   }),
             ),

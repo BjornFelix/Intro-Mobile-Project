@@ -17,7 +17,7 @@ class AdminRoute extends StatelessWidget {
           actions: [
             ElevatedButton(
                 onPressed: () => FirebaseAuth.instance.signOut(),
-                child: const Text("Sign out")),
+                child: const Text("Log uit")),
           ],
         ),
         body: Center(
@@ -32,6 +32,7 @@ class AdminRoute extends StatelessWidget {
                           builder: (context) => const MakeExam(
                             list: [],
                           )),
+<<<<<<< Updated upstream
                     );
                   },
                   child: const Text('Examenvragen aanmaken'),
@@ -66,5 +67,62 @@ class AdminRoute extends StatelessWidget {
                 ),
               ],
             )));
+=======
+                );
+              },
+              child: const Text('Examenvragen aanmaken'),
+              style: ElevatedButton.styleFrom(
+                  primary: Colors.red[800],
+                  fixedSize: const Size(400, 80),
+                  textStyle: const TextStyle(
+                      fontSize: 24, fontWeight: FontWeight.bold)),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const AddStudents()),
+                );
+              },
+              child: const Text('Studentenlijst'),
+              style: ElevatedButton.styleFrom(
+                  primary: Colors.red[800],
+                  fixedSize: const Size(400, 80),
+                  textStyle: const TextStyle(
+                      fontSize: 24, fontWeight: FontWeight.bold)),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const SelectStudent()),
+                );
+              },
+              child: const Text('Examen verbeteren'),
+              style: ElevatedButton.styleFrom(
+                  primary: Colors.red[800],
+                  fixedSize: const Size(400, 80),
+                  textStyle: const TextStyle(
+                      fontSize: 24, fontWeight: FontWeight.bold)),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const ChangePasswordWidget()),
+                );
+              },
+              child: const Text('Wachtwoord wijzigen'),
+              style: ElevatedButton.styleFrom(
+                  primary: Colors.red[800],
+                  fixedSize: const Size(400, 80),
+                  textStyle: const TextStyle(
+                      fontSize: 24, fontWeight: FontWeight.bold)),
+            ),
+          ],
+        )));
+>>>>>>> Stashed changes
   }
 }
