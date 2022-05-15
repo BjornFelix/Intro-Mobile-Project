@@ -198,9 +198,9 @@ class Exam {
       this.leftExam=0});
 
   Map<String, dynamic> toJson() {
-    String studentjson = '';
+    List<Map<String,dynamic>> studentjson=[];
     for (var element in studentAnswers) {
-      studentjson += element.toJson().toString();
+      studentjson.add(element.toJson());
     }
 
     return {
