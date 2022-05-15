@@ -156,13 +156,13 @@ class _ConfirmStudentsState extends State<ConfirmStudentsPage> {
   }
 
   CollectionReference students =
-      FirebaseFirestore.instance.collection('studenten');
+      FirebaseFirestore.instance.collection('students');
 
   Future<void> addStudent(List student) {
     return students.add({
-      'naam': student[1],
-      'voornaam': student[0],
-      'snummer': student[2]
+      'name': student[1],
+      'firstname': student[0],
+      'snumber': student[2]
     }).catchError((error) => throw ("Mislukt user toe te voegen: $error"));
   }
 }

@@ -41,7 +41,7 @@ class _StartExamState extends State<StartExam> {
         appBar: AppBar(
             backgroundColor: Colors.red[800],
             title: Row(children: [
-              const Text('Exam '),
+              const Text('Exam    Naam: '),
               Text(widget.student.firstname +
                   " " +
                   widget.student.name +

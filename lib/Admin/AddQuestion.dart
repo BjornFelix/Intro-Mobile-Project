@@ -1,3 +1,4 @@
+import 'package:firstapp/Admin/LoginPage.dart';
 import 'package:firstapp/Student/AnswerQuestion.dart';
 import 'package:flutter/material.dart';
 import 'package:csv/csv.dart' as csv;
@@ -95,13 +96,23 @@ class _AddMultipleChoiceQuestionState extends State<AddMultipleChoiceQuestion> {
                           for (var element in widget.list) {
                             nList.add(element);
                           }
-
-                          Question question = Question(
+                          int totalPoints = 0;
+                          for (var i = 0; i < nList.length; i++) {
+                            totalPoints += nList[i].points;
+                          }
+                          if(totalPoints>=20) {
+                            showToast("Vraag toevoegen is mislukt, totaal aantal punten bereikt");
+                          }
+                          else {
+                            nList.add(Question(
                               question: questionController.text.trim(),
                               answer: answerController.text.trim(),
-                              options: optionsController.text.trim(), type: 'MC');
-
-                          nList.add(question);
+                              options: optionsController.text.trim(),
+                              points: 3,
+                              type: 'MC',
+                            )
+                            );
+                          }
 
                           Navigator.push(
                             context,
@@ -187,8 +198,23 @@ class _AddOpenQuestionState extends State<AddOpenQuestion> {
                           for (var element in widget.list) {
                             nList.add(element);
                           }
-                          nList.add(Question(
-                              question: questionController.text.trim(), type: 'OQ'));
+                          int totalPoints = 0;
+                          for (var i = 0; i < nList.length; i++) {
+                            totalPoints += nList[i].points;
+                          }
+                          if(totalPoints>=20) {
+                            showToast("Vraag toevoegen is mislukt, totaal aantal punten bereikt");
+                          }
+                          else {
+                            nList.add(Question(
+                              question: questionController.text.trim(),
+                              answer: answerController.text.trim(),
+                              points: 2,
+                              type: 'OQ',
+                            )
+                            );
+                          }
+
 
                           Navigator.push(
                             context,
@@ -280,9 +306,22 @@ class _AddClosedQuestionState extends State<AddClosedQuestion> {
                           for (var element in widget.list) {
                             nList.add(element);
                           }
-                          nList.add(Question(
+                          int totalPoints = 0;
+                          for (var i = 0; i < nList.length; i++) {
+                            totalPoints += nList[i].points;
+                          }
+                          if(totalPoints>=20) {
+                            showToast("Vraag toevoegen is mislukt, totaal aantal punten bereikt");
+                          }
+                          else {
+                            nList.add(Question(
                               question: questionController.text.trim(),
-                              answer: answerController.text.trim(), type: 'CQ'));
+                              answer: answerController.text.trim(),
+                              points: 2,
+                              type: 'CQ',
+                            )
+                            );
+                          }
 
                           Navigator.push(
                             context,
@@ -340,11 +379,22 @@ class _AddCodeCorrectionState extends State<AddCodeCorrection> {
               for (var element in widget.list) {
                 nList.add(element);
               }
-              nList.add(Question(
-                question: questionController.text.trim(),
-                answer: answerController.text.trim(), 
-                type: 'CC',
-              ));
+              int totalPoints = 0;
+              for (var i = 0; i < nList.length; i++) {
+                totalPoints += nList[i].points;
+              }
+              if(totalPoints>=20) {
+                showToast("Vraag toevoegen is mislukt, totaal aantal punten bereikt");
+              }
+              else {
+                nList.add(Question(
+                  question: questionController.text.trim(),
+                  answer: answerController.text.trim(),
+                  points: 2,
+                  type: 'CC',
+                  )
+                );
+              }
 
               Navigator.push(
                 context,
