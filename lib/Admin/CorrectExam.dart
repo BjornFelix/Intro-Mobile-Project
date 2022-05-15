@@ -19,8 +19,6 @@ class CorrectExam extends StatefulWidget {
   State<CorrectExam> createState() => _CorrectExamState();
 }
 
-
-
 class _CorrectExamState extends State<CorrectExam> {
   int score = 0;
 
@@ -44,7 +42,7 @@ class _CorrectExamState extends State<CorrectExam> {
               final exam = snapshot.data!;
               final answers = exam[0].studentAnswers;
               return ListView(
-                  children: answers.map((e) => buildExam(e)).toList());
+                  children: answers.map((e) => buildExam(e.toJson())).toList());
             } else {
               return const Center(
                 child: CircularProgressIndicator(),
@@ -54,48 +52,44 @@ class _CorrectExamState extends State<CorrectExam> {
     );
   }
 
-  Widget buildExam(StudentAnswer answer) {
-    int points = answer.question.points;
+  Widget buildExam(Map<String, dynamic> answer) {
+    StudentAnswer ans = StudentAnswer.fromJson(answer, '');
+    int points = ans.question.points;
 
-    if (answer.question.type == 'CQ' || answer.question.type == 'CC' ||
-        answer.question.type == 'MC') {
-      if (answer.answer.toUpperCase() == answer.question.answer) {
+    if (ans.question.type == 'CQ' ||
+        ans.question.type == 'CC' ||
+        ans.question.type == 'MC') {
+      if (ans.answer.toUpperCase() == ans.question.answer) {
         score += points;
         return ListTile(
-
-            title: Text(answer.question.question),
-            subtitle: Text(
-                answer.answer + points.toString() + "/" + points.toString())
-        );
-      }
-      else {
+            title: Text(ans.question.question),
+            subtitle:
+                Text(ans.answer + points.toString() + "/" + points.toString()));
+      } else {
         return ListTile(
-
-            title: Text(answer.question.question),
-            subtitle: Text(
-                answer.answer + "0/" + answer.question.points.toString())
-        );
+            title: Text(ans.question.question),
+            subtitle: Text(ans.answer + "0/" + ans.question.points.toString()));
       }
     }
     return ListTile(
-
         onTap: () {},
-        title: Text(answer.question.question),
-        subtitle: Text(answer.answer)
-    );
+        title: Text(ans.question.question),
+        subtitle: Text(ans.answer));
   }
 
-
-  Future <List<Exam>> getExam() async {
+  Future<List<Exam>> getExam() async {
     var collection = FirebaseFirestore.instance.collection('exams');
     var querySnapshot = await collection.get();
     List<Exam> result = [];
     for (var queryDocumentSnapshot in querySnapshot.docs) {
+      print(queryDocumentSnapshot.data());
       Map<String, dynamic> data = queryDocumentSnapshot.data();
+
       data["studentId"] = queryDocumentSnapshot.id;
+
       result.add(Exam.fromJson(data, queryDocumentSnapshot.id));
-      }
-    print(result.toString());
+    }
+    print("hier");
     return result;
   }
 }

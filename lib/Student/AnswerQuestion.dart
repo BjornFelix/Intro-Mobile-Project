@@ -113,10 +113,10 @@ class _AnswerQuestionState extends State<AnswerQuestion>
     return Column(children: [
       Container(
           child: Text(
-        question.question,
-        textScaleFactor: 2,
-      ),
-      padding: const EdgeInsets.all(16.0)),
+            question.question,
+            textScaleFactor: 2,
+          ),
+          padding: const EdgeInsets.all(16.0)),
       Expanded(
         child: Column(
           children: createRadioListAnswers(),
@@ -129,16 +129,16 @@ class _AnswerQuestionState extends State<AnswerQuestion>
               style: ElevatedButton.styleFrom(fixedSize: const Size(200, 50)),
               onPressed: () {
                 // if (_formKey.currentState!.validate()) {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => MakeExam(
-                              exam: updateExam(selectedAnswer.trim(),
-                                  examin, question),
-                              counter: widget.counter + closedAppCounter,
-                            )),
-                  );
-                }
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => MakeExam(
+                            exam: updateExam(
+                                selectedAnswer.trim(), examin, question),
+                            counter: widget.counter + closedAppCounter,
+                          )),
+                );
+              }
               // },
               ,
               child: const Text(

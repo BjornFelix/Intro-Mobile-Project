@@ -2,6 +2,8 @@ import 'package:firstapp/Student/SelectStudent.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import '../Admin/SelectStudent.dart';
+
 class SelectQuestion extends StatefulWidget {
   const SelectQuestion({Key? key,required this.student}) : super(key: key);
 
@@ -55,34 +57,3 @@ class _SelectQuestionState extends State<SelectQuestion> {
   }
 }
 
-class Question {
-  String id;
-  final String question;
-  final String answer;
-  final String options;
-  Question(
-      { this.id = ' ',
-      required this.question,
-      this.answer = ' ',
-      this.options = ' '});
-
-  Map<String, dynamic> toJson() =>
-      {'id': id, 'question': question, 'answer': answer, 'options': options};
-
-  static Question fromJson(Map<String, dynamic> json, String id) {
-    if (json['answer'] == null) {
-      return Question(id: id, question: json['question']);
-    } else if (json['options'] == null) {
-      return Question(
-        id: id,
-        question: json['question'],
-        answer: json['answer'],
-      );
-    }
-    return Question(
-        id: id,
-        question: json['question'],
-        answer: json['answer'],
-        options: json['options']);
-  }
-}
