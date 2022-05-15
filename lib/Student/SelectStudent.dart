@@ -31,35 +31,41 @@ class _SelectStudentState extends State<SelectStudent> {
               Text('Student Login'),
             ],
           )),
-        
-      body: StreamBuilder<List<Student>>(
+      body: Column(children: [
+        StreamBuilder<List<Student>>(
           stream: getStudents(),
           builder: (context, snapshot) {
             if (snapshot.hasError) {
-      
               return const Text('Something went wrong');
             } else if (snapshot.hasData) {
               final students = snapshot.data!;
-            
+
               return ListView(
-                  children: students.map((e) => buildStudent(e)).toList());
+                children: students.map((e) => buildStudent(e)).toList(),
+                scrollDirection: Axis.vertical,
+                shrinkWrap: true,
+              );
             } else {
               return const Center(
                 child: CircularProgressIndicator(),
               );
             }
-          }),
+          },
+        )
+      ],),
     );
   }
 
   Widget buildStudent(Student student) {
-  
     return ListTile(
-      onTap: () {
-             Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => StartExam(student:student ,)));
-          },
+        onTap: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => StartExam(
+                        student: student,
+                      )));
+        },
         title: Text(student.name + student.firstname),
         subtitle: Text(student.snumber));
   }
@@ -67,8 +73,9 @@ class _SelectStudentState extends State<SelectStudent> {
 // ignore: non_constant_identifier_names
   Stream<List<Student>> getStudents() {
     return FirebaseFirestore.instance.collection('students').snapshots().map(
-        (snapshot) =>
-            snapshot.docs.map((doc) => Student.fromJson(doc.data(),doc.id)).toList());
+        (snapshot) => snapshot.docs
+            .map((doc) => Student.fromJson(doc.data(), doc.id))
+            .toList());
   }
 }
 
@@ -77,8 +84,9 @@ class Student {
   final String name;
   final String firstname;
   final String snumber;
+
   Student(
-      { required this.id ,
+      {required this.id,
       required this.name,
       required this.firstname,
       required this.snumber});
@@ -86,12 +94,11 @@ class Student {
   Map<String, dynamic> toJson() =>
       {'id': id, 'name': name, 'firstname': firstname, 'snumber': snumber};
 
-  static Student fromJson(Map<String, dynamic> json,String id) { 
+  static Student fromJson(Map<String, dynamic> json, String id) {
     return Student(
-      id: id,
-      name: json['name'],
-      firstname: json['firstname'],
-      snumber: json['snumber']);
-      }
-      
+        id: id,
+        name: json['name'],
+        firstname: json['firstname'],
+        snumber: json['snumber']);
+  }
 }

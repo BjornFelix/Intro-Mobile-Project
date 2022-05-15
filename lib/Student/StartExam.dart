@@ -14,56 +14,70 @@ class StartExam extends StatefulWidget {
 }
 
 class _StartExamState extends State<StartExam> {
+  var _isLoading = false;
+
+  Future<void> _onSubmit() async {
+    setState(() => _isLoading = true);
+
+    Position position = await _determinePosition();
+    print(position);
+    setState(() => _isLoading = false);
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => MakeExam(
+                  exam: Exam(
+                      studentId: widget.student.id,
+                      studentAnswers: [],
+                      lat: position.latitude,
+                      long: position.longitude),
+                  counter: 0,
+                )));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
             backgroundColor: Colors.red[800],
-            title: Row(
-              children: const [
-                Text('Exam'),
-              ],
-            )),
+            title: Row(children: [
+              const Text('Exam '),
+              Text(widget.student.firstname +
+                  " " +
+                  widget.student.name +
+                  " " +
+                  widget.student.snumber)
+            ], mainAxisAlignment: MainAxisAlignment.center)),
         body: Center(
           child: Column(
             children: [
               Row(
                 children: [
-                  Text(widget.student.firstname +
-                      " " +
-                      widget.student.name +
-                      " " +
-                      widget.student.snumber)
-                ],
-              ),
-              Row(
-                children: [
-                  ElevatedButton(
-                    onPressed: () async {
-                      Position position = await _determinePosition();
-                      print(position);
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) =>
-                              MakeExam(
-                                exam: Exam(
-                                    studentId: widget.student.id,
-                                    studentAnswers: [],
-                                    lat: position.latitude,
-                                    long: position.longitude),
-                              ))
-                      )
-                      ;
-                    },
-                    child: const Text('Start Examen'),
+                  ElevatedButton.icon(
+                    onPressed: _isLoading ? null : _onSubmit,
                     style: ElevatedButton.styleFrom(
                         primary: Colors.red[800],
-                        padding: const EdgeInsets.fromLTRB(
-                            338.0, 75.0, 338.0, 75.0)),
+                        fixedSize: const Size(600, 110),
+                        textStyle: const TextStyle(
+                            fontSize: 24, fontWeight: FontWeight.bold)),
+                    icon: _isLoading
+                        ? Container(
+                            width: 24,
+                            height: 24,
+                            padding: const EdgeInsets.all(2.0),
+                            child: const CircularProgressIndicator(
+                              color: Colors.white,
+                              strokeWidth: 3,
+                            ),
+                          )
+                        : const Icon(Icons.play_circle),
+                    label: const Text('Start Examen'),
                   ),
                 ],
+                mainAxisAlignment: MainAxisAlignment.center,
               )
             ],
+            mainAxisAlignment: MainAxisAlignment.center,
           ),
         ));
   }
