@@ -38,7 +38,7 @@ class _AddMultipleChoiceQuestionState extends State<AddMultipleChoiceQuestion> {
             backgroundColor: Colors.red[800],
             title: Row(
               children: const [
-                Text('Add multiple choice question'),
+                Text('Voeg multiple choice vraag toe.'),
               ],
             )),
         body: SingleChildScrollView(
@@ -52,23 +52,23 @@ class _AddMultipleChoiceQuestionState extends State<AddMultipleChoiceQuestion> {
                   TextFormField(
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Please enter some text';
+                          return 'Vul tekst in';
                         }
                         return null;
                       },
                       controller: questionController,
                       cursorColor: Colors.white,
                       textInputAction: TextInputAction.next,
-                      decoration: const InputDecoration(labelText: "Question")),
+                      decoration: const InputDecoration(labelText: "Vraag")),
                   const SizedBox(height: 4),
                   TextFormField(
                     controller: optionsController,
                     cursorColor: Colors.white,
                     textInputAction: TextInputAction.done,
-                    decoration: const InputDecoration(labelText: "Options"),
+                    decoration: const InputDecoration(labelText: "Opties"),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Please enter some text';
+                        return 'Vul tekst in';
                       }
                       return null;
                     },
@@ -77,14 +77,14 @@ class _AddMultipleChoiceQuestionState extends State<AddMultipleChoiceQuestion> {
                   TextFormField(
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Please enter some text';
+                        return 'Vul tekst in';
                       }
                       return null;
                     },
                     controller: answerController,
                     cursorColor: Colors.white,
                     textInputAction: TextInputAction.done,
-                    decoration: const InputDecoration(labelText: "Answer"),
+                    decoration: const InputDecoration(labelText: "Antwoord"),
                   ),
                   const SizedBox(height: 20),
                   ElevatedButton(
@@ -111,7 +111,7 @@ class _AddMultipleChoiceQuestionState extends State<AddMultipleChoiceQuestion> {
                         }
                       },
                       child: const Text(
-                        "Add",
+                        "Toevoegen",
                         style: TextStyle(fontSize: 24),
                       ))
                 ],
@@ -156,7 +156,7 @@ class _AddOpenQuestionState extends State<AddOpenQuestion> {
             backgroundColor: Colors.red[800],
             title: Row(
               children: const [
-                Text('Add open question'),
+                Text('Voeg open vraag toe'),
               ],
             )),
         body: SingleChildScrollView(
@@ -170,14 +170,14 @@ class _AddOpenQuestionState extends State<AddOpenQuestion> {
                   TextFormField(
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Please enter some text';
+                          return 'Vul tekst in';
                         }
                         return null;
                       },
                       controller: questionController,
                       cursorColor: Colors.white,
                       textInputAction: TextInputAction.next,
-                      decoration: const InputDecoration(labelText: "Question")),
+                      decoration: const InputDecoration(labelText: "Vraag")),
                   const SizedBox(height: 20),
                   ElevatedButton(
                       style: ElevatedButton.styleFrom(
@@ -198,7 +198,7 @@ class _AddOpenQuestionState extends State<AddOpenQuestion> {
                         }
                       },
                       child: const Text(
-                        "Add",
+                        "Toevoegen",
                         style: TextStyle(fontSize: 24),
                       ))
                 ],
@@ -236,7 +236,7 @@ class _AddClosedQuestionState extends State<AddClosedQuestion> {
             backgroundColor: Colors.red[800],
             title: Row(
               children: const [
-                Text('Add multiple choice question'),
+                Text('Voeg gesloten vraag toe'),
               ],
             )),
         body: SingleChildScrollView(
@@ -250,26 +250,26 @@ class _AddClosedQuestionState extends State<AddClosedQuestion> {
                   TextFormField(
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Please enter some text';
+                          return 'Vul tekst in';
                         }
                         return null;
                       },
                       controller: questionController,
                       cursorColor: Colors.white,
                       textInputAction: TextInputAction.next,
-                      decoration: const InputDecoration(labelText: "Question")),
+                      decoration: const InputDecoration(labelText: "Vraag")),
                   const SizedBox(height: 20),
                   TextFormField(
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Please enter some text';
+                        return 'Vul tekst in';
                       }
                       return null;
                     },
                     controller: answerController,
                     cursorColor: Colors.white,
                     textInputAction: TextInputAction.done,
-                    decoration: const InputDecoration(labelText: "Answer"),
+                    decoration: const InputDecoration(labelText: "Antwoord"),
                   ),
                   const SizedBox(height: 20),
                   ElevatedButton(
@@ -292,7 +292,7 @@ class _AddClosedQuestionState extends State<AddClosedQuestion> {
                         }
                       },
                       child: const Text(
-                        "Add",
+                        "Toevoegen",
                         style: TextStyle(fontSize: 24),
                       ))
                 ],
@@ -330,11 +330,11 @@ class _AddCodeCorrectionState extends State<AddCodeCorrection> {
             backgroundColor: Colors.red[800],
             title: Row(
               children: const [
-                Text('Add code correction question'),
+                Text('Voeg code correctie vraag toe'),
               ],
             )),
         floatingActionButton: ElevatedButton(
-          child: const Text("Add"),
+          child: const Text("Toevoegen"),
           onPressed: () {
             if (_formKey.currentState!.validate()) {
               for (var element in widget.list) {
@@ -364,14 +364,14 @@ class _AddCodeCorrectionState extends State<AddCodeCorrection> {
               child: TextFormField(
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please enter some text';
+                    return 'Vul tekst in';
                   }
                   return null;
                 },
                 controller: questionController,
                 cursorColor: Colors.white,
                 textInputAction: TextInputAction.done,
-                decoration: const InputDecoration(labelText: "Question"),
+                decoration: const InputDecoration(labelText: "Vraag"),
                 minLines: 6,
                 keyboardType: TextInputType.multiline,
                 maxLines: null,
@@ -382,14 +382,14 @@ class _AddCodeCorrectionState extends State<AddCodeCorrection> {
               child: TextFormField(
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please enter some text';
+                    return 'Vul tekst in';
                   }
                   return null;
                 },
                 controller: answerController,
                 cursorColor: Colors.white,
                 textInputAction: TextInputAction.done,
-                decoration: const InputDecoration(labelText: "Answer"),
+                decoration: const InputDecoration(labelText: "Antwoord"),
                 minLines: 6,
                 keyboardType: TextInputType.multiline,
                 maxLines: null,

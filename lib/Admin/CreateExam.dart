@@ -40,7 +40,7 @@ getQuestions().then((value) => print(value) );
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.red[800],
-          title: const Text('Add exam questions'),
+          title: const Text('Voeg examen vragen toe'),
           actions: [
             ElevatedButton(
                 onPressed: () =>{ FirebaseAuth.instance.signOut().then((value) =>   Navigator.push(
@@ -49,7 +49,7 @@ getQuestions().then((value) => print(value) );
                             builder: (context) =>
                                 const AdminRoute()),
                       ))},
-                child: const Text("Sign out")),
+                child: const Text("Log uit")),
           ],
         ),
         body: Column(
@@ -67,13 +67,13 @@ getQuestions().then((value) => print(value) );
                           children: [
                             Center(
                                 child: Text(
-                              'Question: ${dbquestion[index].question}    ${dbquestion[index].answer} ',
+                              'Vraag: ${dbquestion[index].question}    Antwoord: ${dbquestion[index].answer} ',
                               style: const TextStyle(fontSize: 18),
                             )),
                             ElevatedButton.icon(
                                 onPressed: deleteDBQuestion(dbquestion[index]),
                                 icon: const Icon(Icons.delete),
-                                label: const Text("Delete"))
+                                label: const Text("Verwijder"))
                           ],
                         ));
                   }),
@@ -89,7 +89,7 @@ getQuestions().then((value) => print(value) );
                       color: Colors.grey[400],
                       child: Center(
                           child: Text(
-                        'Question: ${widget.list[index].question}       ${widget.list[index].answer} ',
+                        'Vraag: ${widget.list[index].question}       Antwoord: ${widget.list[index].answer} ',
                         style: const TextStyle(fontSize: 18),
                       )),
                     );
@@ -141,20 +141,20 @@ getQuestions().then((value) => print(value) );
                                 AddCodeCorrection(list: widget.list)),
                       );
                     },
-                    child: const Text('Code correction'),
+                    child: const Text('Code correctie'),
                   ),
                   const SizedBox(height: 100),
                   ElevatedButton(
-                    child: const Text("Submit exam"),
+                    child: const Text("Examen indienen"),
                     onPressed: () {
                       for (var i = 0; i < widget.list.length; i++) {
                         try {
                           AddQuestion(widget.list[i]);
                         } catch (e) {
-                          showToast("Failed to add question");
+                          showToast("Mislukt vraag toe te voegen");
                         }
                       }
-                      showToast("Exam was added succesfully");
+                      showToast("Examen is succesvol ingediend");
                       Navigator.push(
                           context,
                           MaterialPageRoute(

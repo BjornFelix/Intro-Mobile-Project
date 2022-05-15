@@ -23,14 +23,14 @@ class _SelectStudentState extends State<SelectStudent> {
           backgroundColor: Colors.red[800],
           title: Row(
             children: const [
-              Text('Select Student'),
+              Text('Selecteer student'),
             ],
           )),
       body: StreamBuilder<List<Student>>(
           stream: getStudents(),
           builder: (context, snapshot) {
             if (snapshot.hasError) {
-              return const Text('Something went wrong');
+              return const Text('Een fout heeft zich plaatsgevonden');
             } else if (snapshot.hasData) {
               final students = snapshot.data!;
 

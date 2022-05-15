@@ -27,14 +27,14 @@ int score=0;
           backgroundColor: Colors.red[800],
           title: Row(
             children: const [
-              Text('Select Student'),
+              Text('Selecteer student'),
             ],
           )),
       body: StreamBuilder<List<Exam>>(
           stream: getExam(widget.student),
           builder: (context, snapshot) {
             if (snapshot.hasError) {
-              return const Text('Something went wrong');
+              return const Text('Een fout heeft zich plaatsgevonden');
             } else if (snapshot.hasData) {
               final exam = snapshot.data!;
 final answers = exam[0].studentAnswers;

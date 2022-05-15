@@ -43,8 +43,9 @@ class _LoginWidgetState extends State<LoginWidget> {
                   TextFormField(
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Please enter some text';
+                          return 'Vul tekst in';
                         }
+                        debugPrint(emailController.text);
                         return null;
                       },
                       controller: emailController,
@@ -55,14 +56,14 @@ class _LoginWidgetState extends State<LoginWidget> {
                   TextFormField(
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Please enter some text';
+                        return 'Vul tekst in';
                       }
                       return null;
                     },
                     controller: passwordController,
                     cursorColor: Colors.white,
                     textInputAction: TextInputAction.done,
-                    decoration: const InputDecoration(labelText: "Password"),
+                    decoration: const InputDecoration(labelText: "Wachtwoord"),
                     obscureText: true,
                   ),
                   const SizedBox(height: 20),
@@ -79,7 +80,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                         size: 32,
                       ),
                       label: const Text(
-                        "Sign In",
+                        "Log In",
                         style: TextStyle(fontSize: 24),
                       ))
                 ],
@@ -93,7 +94,7 @@ class _LoginWidgetState extends State<LoginWidget> {
         email: emailController.text.trim(),
         password: passwordController.text.trim());}catch(err){
           
-          showToast("Login failed");
+          showToast("Login mislukt");
         }
   }
 }
@@ -122,7 +123,7 @@ class LoginPage extends StatelessWidget {
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            showToast("Sccesfull login");
+            showToast("Login gelukt");
             return const AdminRoute();
           } else {
            

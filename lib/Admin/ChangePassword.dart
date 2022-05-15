@@ -28,7 +28,7 @@ class _ChangePasswordWidgetState extends State<ChangePasswordWidget> {
             backgroundColor: Colors.red[800],
             title: Row(
               children: const [
-                Text('Change password'),
+                Text('Wachtwoord wijzigen'),
               ],
             )),
         body: SingleChildScrollView(
@@ -42,7 +42,7 @@ class _ChangePasswordWidgetState extends State<ChangePasswordWidget> {
                   TextFormField(
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Please enter some text';
+                        return 'Vul tekst in';
                       }
                       return null;
                     },
@@ -50,14 +50,14 @@ class _ChangePasswordWidgetState extends State<ChangePasswordWidget> {
                     cursorColor: Colors.white,
                     textInputAction: TextInputAction.next,
                     decoration:
-                        const InputDecoration(labelText: "New password"),
+                        const InputDecoration(labelText: "Nieuw wachtwoord"),
                     obscureText: true,
                   ),
                   const SizedBox(height: 4),
                   TextFormField(
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Please enter some text';
+                        return 'Vul tekst in';
                       }
                       return null;
                     },
@@ -65,7 +65,7 @@ class _ChangePasswordWidgetState extends State<ChangePasswordWidget> {
                     cursorColor: Colors.white,
                     textInputAction: TextInputAction.done,
                     decoration:
-                        const InputDecoration(labelText: "Repeat password"),
+                        const InputDecoration(labelText: "Herhaal wachtwoord"),
                     obscureText: true,
                   ),
                   const SizedBox(height: 20),
@@ -75,7 +75,7 @@ class _ChangePasswordWidgetState extends State<ChangePasswordWidget> {
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
                           updatePAssword()
-                              .then((value) => showToast("Updated password")).then((value) =>  Navigator.push(
+                              .then((value) => showToast("Aangepaste wachtwoord")).then((value) =>  Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => const MyHomePage(title: 'Home',)),
                     ));
@@ -86,7 +86,7 @@ class _ChangePasswordWidgetState extends State<ChangePasswordWidget> {
                         size: 32,
                       ),
                       label: const Text(
-                        "Update password",
+                        "Wachtwoord aanpassen",
                         style: TextStyle(fontSize: 24),
                       ))
                 ],
@@ -112,7 +112,7 @@ class _ChangePasswordWidgetState extends State<ChangePasswordWidget> {
             .updatePassword(passwordController.text.trim());
         FirebaseAuth.instance.signOut();
       } catch (e) {
-        showToast("Failed to update password");
+        showToast("Wachtwoord aanpassen mislukt");
       }
     }
   }

@@ -15,7 +15,7 @@ class AdminRouteState extends StatelessWidget {
           actions: [
             ElevatedButton(
                 onPressed: () => FirebaseAuth.instance.signOut(),
-                child: const Text("Sign out")),
+                child: const Text("Log uit")),
           ],
         ),
         body: Center(

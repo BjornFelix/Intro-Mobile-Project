@@ -16,11 +16,11 @@ class _ConfirmStudentsState extends State<ConfirmStudentsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Confirm students'),
+          title: const Text('Studenten bevestigen'),
         ),
         floatingActionButton:
         ElevatedButton(
-          child: const Text("Confirm"),
+          child: const Text("Bevestig"),
           onPressed: () {
             for (var i = 0; i < widget.list.length; i++) {
               AddStudent(widget.list[i]);
@@ -41,7 +41,7 @@ class _ConfirmStudentsState extends State<ConfirmStudentsPage> {
                 color: Colors.grey[400],
                 child: Center(
                     child: Text(
-                      'Name: ${widget.list[index][1]} FirstName: ${widget.list[index][0]}  S-Number: ${widget.list[index][2]} ',
+                      'Naam: ${widget.list[index][1]} Voornaam: ${widget.list[index][0]}  S-Nummer: ${widget.list[index][2]} ',
                       style: const TextStyle(fontSize: 18),
                     )),
               );
@@ -49,13 +49,13 @@ class _ConfirmStudentsState extends State<ConfirmStudentsPage> {
   }
 
   CollectionReference students =
-  FirebaseFirestore.instance.collection('students');
+  FirebaseFirestore.instance.collection('studenten');
   // ignore: non_constant_identifier_names
   Future<void> AddStudent(List student) {
     return students.add({
-      'name': student[1],
-      'lastname': student[0],
-      'snumber': student[2]
-    }).catchError((error) => throw ("Failed to add user: $error"));
+      'naam': student[1],
+      'voornaam': student[0],
+      'snummer': student[2]
+    }).catchError((error) => throw ("Mislukt user toe te voegen: $error"));
   }
 }

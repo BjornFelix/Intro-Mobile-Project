@@ -27,11 +27,11 @@ class _AddStudentsState extends State<AddStudents> {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.red[800],
-          title: const Text('Add Students'),
+          title: const Text('Voeg studenten toe'),
           actions: [
             ElevatedButton(
                 onPressed: () => FirebaseAuth.instance.signOut(),
-                child: const Text("Sign out")),
+                child: const Text("Log uit")),
           ],
         ),
         body: Container(
@@ -45,13 +45,13 @@ class _AddStudentsState extends State<AddStudents> {
                     cursorColor: Colors.white,
                     textInputAction: TextInputAction.done,
                     decoration: const InputDecoration(
-                        labelText: "Add csv here ( firstname, name, s-number)"),
+                        labelText: "Voeg csv hier toe ( voornaam, naam, s-nummer)"),
                     minLines: 6,
                     keyboardType: TextInputType.multiline,
                     maxLines: null,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Please enter some text';
+                        return 'Vul tekst in';
                       }
                       return null;
                     },
@@ -71,7 +71,7 @@ class _AddStudentsState extends State<AddStudents> {
                           );
                         }
                       },
-                      child: const Text("Submit"),
+                      child: const Text("Indienen"),
                       style: ElevatedButton.styleFrom(
                           padding: const EdgeInsets.fromLTRB(10, 10, 10, 10)),
                     )
@@ -105,20 +105,20 @@ class _ConfirmStudentsState extends State<ConfirmStudentsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Confirm students'),
+          title: const Text('Studenten bevestigen'),
         ),
         floatingActionButton: ElevatedButton(
-          child: const Text("Confirm"),
+          child: const Text("Bevestig"),
           onPressed: () {
             for (var i = 0; i < widget.list.length; i++) {
               try {
                 addStudent(widget.list[i]);
               } catch (e) {
-                showToast("Failed adding students");
+                showToast("Studenten toevoegen mislukt");
               }
               
             }
-            showToast("Added students succesfully");
+            showToast("Studenten toevoegen gelukt");
             Navigator.push(context,
                 MaterialPageRoute(builder: (context) => const AdminRoute()));
           },
@@ -133,7 +133,7 @@ class _ConfirmStudentsState extends State<ConfirmStudentsPage> {
                 color: Colors.grey[400],
                 child: Center(
                     child: Text(
-                  'Name: ${widget.list[index][1]} FirstName: ${widget.list[index][0]}  S-Number: ${widget.list[index][2]} ',
+                  'Naam: ${widget.list[index][1]} Voornaam: ${widget.list[index][0]}  S-Nummer: ${widget.list[index][2]} ',
                   style: const TextStyle(fontSize: 18),
                 )),
               );
@@ -151,14 +151,14 @@ void showToast(String message) {
         fontSize: 16.0);
   }
   CollectionReference students =
-      FirebaseFirestore.instance.collection('students');
+      FirebaseFirestore.instance.collection('studenten');
 
   Future<void> addStudent(List student) {
     return students.add({
-      'name': student[1],
-      'firstname': student[0],
-      'snumber': student[2]
-    }).catchError((error) => throw ("Failed to add user: $error"));
+      'naam': student[1],
+      'voornaam': student[0],
+      'snummer': student[2]
+    }).catchError((error) => throw ("Mislukt user toe te voegen: $error"));
   }
 }
 

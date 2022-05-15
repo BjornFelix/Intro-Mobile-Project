@@ -65,7 +65,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                   controller: passwordController,
                   cursorColor: Colors.white,
                   textInputAction: TextInputAction.done,
-                  decoration: const InputDecoration(labelText: "Password"),
+                  decoration: const InputDecoration(labelText: "Wachtwoord"),
                   obscureText: true,
                 ),
                 const SizedBox(height: 20),
@@ -78,7 +78,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                       size: 32,
                     ),
                     label: const Text(
-                      "Sign In",
+                      "Log In",
                       style: TextStyle(fontSize: 24),
                     ))
               ],
