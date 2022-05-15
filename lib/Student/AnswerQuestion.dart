@@ -20,7 +20,7 @@ class AnswerQuestion extends StatefulWidget {
 class _AnswerQuestionState extends State<AnswerQuestion>
     with WidgetsBindingObserver {
   final answerController = TextEditingController();
-  String? selectedAnswer = '';
+  String selectedAnswer = '';
   int closedAppCounter = 0;
 
   @override
@@ -99,7 +99,7 @@ class _AnswerQuestionState extends State<AnswerQuestion>
                   value: answer.toString(),
                   groupValue: selectedAnswer,
                   onChanged: (newValue) => {
-                    setState(() => selectedAnswer = newValue as String?),
+                    setState(() => selectedAnswer = newValue as String),
                     print(selectedAnswer)
                   },
                 )),
@@ -133,7 +133,7 @@ class _AnswerQuestionState extends State<AnswerQuestion>
                     context,
                     MaterialPageRoute(
                         builder: (context) => MakeExam(
-                              exam: updateExam(answerController.text.trim(),
+                              exam: updateExam(selectedAnswer.trim(),
                                   examin, question),
                               counter: widget.counter + closedAppCounter,
                             )),
