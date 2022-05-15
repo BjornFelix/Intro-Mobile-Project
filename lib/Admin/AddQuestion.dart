@@ -57,13 +57,13 @@ class _AddMultipleChoiceQuestionState extends State<AddMultipleChoiceQuestion> {
                         return null;
                       },
                       controller: questionController,
-                      cursorColor: Colors.white,
+                      cursorColor: Colors.black,
                       textInputAction: TextInputAction.next,
                       decoration: const InputDecoration(labelText: "Vraag")),
                   const SizedBox(height: 4),
                   TextFormField(
                     controller: optionsController,
-                    cursorColor: Colors.white,
+                    cursorColor: Colors.black,
                     textInputAction: TextInputAction.done,
                     decoration: const InputDecoration(labelText: "Opties"),
                     validator: (value) {
@@ -82,7 +82,7 @@ class _AddMultipleChoiceQuestionState extends State<AddMultipleChoiceQuestion> {
                       return null;
                     },
                     controller: answerController,
-                    cursorColor: Colors.white,
+                    cursorColor: Colors.black,
                     textInputAction: TextInputAction.done,
                     decoration: const InputDecoration(labelText: "Antwoord"),
                   ),
@@ -175,7 +175,7 @@ class _AddOpenQuestionState extends State<AddOpenQuestion> {
                         return null;
                       },
                       controller: questionController,
-                      cursorColor: Colors.white,
+                      cursorColor: Colors.black,
                       textInputAction: TextInputAction.next,
                       decoration: const InputDecoration(labelText: "Vraag")),
                   const SizedBox(height: 20),
@@ -255,7 +255,7 @@ class _AddClosedQuestionState extends State<AddClosedQuestion> {
                         return null;
                       },
                       controller: questionController,
-                      cursorColor: Colors.white,
+                      cursorColor: Colors.black,
                       textInputAction: TextInputAction.next,
                       decoration: const InputDecoration(labelText: "Vraag")),
                   const SizedBox(height: 20),
@@ -267,7 +267,7 @@ class _AddClosedQuestionState extends State<AddClosedQuestion> {
                       return null;
                     },
                     controller: answerController,
-                    cursorColor: Colors.white,
+                    cursorColor: Colors.black,
                     textInputAction: TextInputAction.done,
                     decoration: const InputDecoration(labelText: "Antwoord"),
                   ),
@@ -369,7 +369,7 @@ class _AddCodeCorrectionState extends State<AddCodeCorrection> {
                   return null;
                 },
                 controller: questionController,
-                cursorColor: Colors.white,
+                cursorColor: Colors.black,
                 textInputAction: TextInputAction.done,
                 decoration: const InputDecoration(labelText: "Vraag"),
                 minLines: 6,
@@ -387,7 +387,7 @@ class _AddCodeCorrectionState extends State<AddCodeCorrection> {
                   return null;
                 },
                 controller: answerController,
-                cursorColor: Colors.white,
+                cursorColor: Colors.black,
                 textInputAction: TextInputAction.done,
                 decoration: const InputDecoration(labelText: "Antwoord"),
                 minLines: 6,

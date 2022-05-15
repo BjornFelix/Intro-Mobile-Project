@@ -55,7 +55,7 @@ class _ChangePasswordWidgetState extends State<ChangePasswordWidget> {
                       return 'Wachtwoord moet minstens 1 hoofdletter, 1 lowercase letter, 1 getal, en 1 speciale teken bevatten ( ! @ # & * ~ )';
                     },
                     controller: repeatController,
-                    cursorColor: Colors.white,
+                    cursorColor: Colors.black,
                     textInputAction: TextInputAction.next,
                     decoration:
                         const InputDecoration(labelText: "Nieuw wachtwoord"),
@@ -73,7 +73,7 @@ class _ChangePasswordWidgetState extends State<ChangePasswordWidget> {
                       return null;
                     },
                     controller: passwordController,
-                    cursorColor: Colors.white,
+                    cursorColor: Colors.black,
                     textInputAction: TextInputAction.done,
                     decoration:
                         const InputDecoration(labelText: "Herhaal wachtwoord"),

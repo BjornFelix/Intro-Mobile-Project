@@ -49,7 +49,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                         return null;
                       },
                       controller: emailController,
-                      cursorColor: Colors.white,
+                      cursorColor: Colors.black,
                       textInputAction: TextInputAction.next,
                       decoration: const InputDecoration(labelText: "Email")),
                   const SizedBox(height: 4),
@@ -61,7 +61,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                       return null;
                     },
                     controller: passwordController,
-                    cursorColor: Colors.white,
+                    cursorColor: Colors.black,
                     textInputAction: TextInputAction.done,
                     decoration: const InputDecoration(labelText: "Wachtwoord"),
                     obscureText: true,

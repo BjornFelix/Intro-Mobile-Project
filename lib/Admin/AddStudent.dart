@@ -42,7 +42,7 @@ class _AddStudentsState extends State<AddStudents> {
                 children: [
                   TextFormField(
                     controller: csvController,
-                    cursorColor: Colors.white,
+                    cursorColor: Colors.black,
                     textInputAction: TextInputAction.done,
                     decoration: const InputDecoration(
                         labelText: "Voeg csv hier toe ( voornaam, naam, s-nummer)"),
