@@ -1,4 +1,3 @@
-
 import 'package:firstapp/HomePage.dart';
 import 'package:firstapp/Student/AnswerQuestion.dart';
 import 'package:firstapp/Student/ShowLocation.dart';
@@ -7,41 +6,43 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class MakeExam extends StatefulWidget {
-  const MakeExam({Key? key, required this.exam,required this.counter}) : super(key: key);
+  const MakeExam({Key? key, required this.exam, required this.counter})
+      : super(key: key);
 
   final Exam exam;
-final int counter;
+  final int counter;
+
   @override
   State<MakeExam> createState() => _MakeExamState();
 }
 
 class _MakeExamState extends State<MakeExam> with WidgetsBindingObserver {
-int closedAppCounter=0;
-  @override 
-  initState(){
+  int closedAppCounter = 0;
+
+  @override
+  initState() {
     super.initState();
     WidgetsBinding.instance?.addObserver(this);
   }
 
   @override
-  void dispose(){
+  void dispose() {
     WidgetsBinding.instance?.removeObserver(this);
     super.dispose();
-
   }
 
-@override
-void didChangeAppLifecycleState(AppLifecycleState state){
-  super.didChangeAppLifecycleState(state);
-  if (state==AppLifecycleState.inactive||state==AppLifecycleState.detached) {
-    return;
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    if (state == AppLifecycleState.inactive ||
+        state == AppLifecycleState.detached) {
+      return;
+    }
+    final isbackGround = state == AppLifecycleState.paused;
+    if (isbackGround) {
+      closedAppCounter += 1;
+    }
   }
-  final isbackGround = state==AppLifecycleState.paused;
-if (isbackGround) {
-  closedAppCounter+=1;
-}
-
-}
 
   @override
   Widget build(BuildContext context) {
@@ -69,14 +70,16 @@ if (isbackGround) {
       floatingActionButton: ElevatedButton(
         child: const Text("Dien examen in"),
         onPressed: () {
-          
           try {
             addExam(widget.exam)
-                .then((value) => showToast("Exam was submitted succesfully")).then((value) => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const MyHomePage(title: "Home"))));
+                .then((value) => showToast("Exam was submitted succesfully"))
+                .then((value) => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            const MyHomePage(title: "Home"))));
           } catch (e) {
+            print(e);
             showToast("Failed to upload exam.");
           }
         },
@@ -109,7 +112,8 @@ if (isbackGround) {
               MaterialPageRoute(
                   builder: (context) => AnswerQuestion(
                         question: question,
-                        exam: exam, counter: closedAppCounter,
+                        exam: exam,
+                        counter: closedAppCounter,
                       )));
         },
         title: Text(question.question),
@@ -128,27 +132,27 @@ if (isbackGround) {
     return questions;
   }
 
+  void showToast(String message) {
+    Fluttertoast.showToast(
+        msg: message,
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0);
+  }
 
-void showToast(String message) {
-  Fluttertoast.showToast(
-      msg: message,
-      toastLength: Toast.LENGTH_SHORT,
-      gravity: ToastGravity.BOTTOM,
-      timeInSecForIosWeb: 1,
-      backgroundColor: Colors.red,
-      textColor: Colors.white,
-      fontSize: 16.0);
+  CollectionReference examColl = FirebaseFirestore.instance.collection('exams');
+
+  Future<void> addExam(Exam exam) {
+    exam.leftExam = widget.counter;
+    return examColl
+        .add(exam.toJson())
+        .catchError((error) => throw ("Failed to add exam: $error"));
+  }
 }
 
-CollectionReference examColl = FirebaseFirestore.instance.collection('exams');
-
-Future<void> addExam(Exam exam) {
-  exam.leftExam=widget.counter;
-  return examColl
-      .add(exam.toJson())
-      .catchError((error) => throw ("Failed to add exam: $error"));
-}
-}
 class StudentAnswer {
   String id;
   final Question question;
@@ -179,7 +183,7 @@ class Exam {
   final int score;
   final bool corrected;
   late final int leftExam;
-  
+
   String id;
 
   Exam(
