@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:location/location.dart';
 import 'package:geocoding/geocoding.dart';
 
 class ShowLocation extends StatefulWidget {
@@ -15,9 +14,9 @@ class ShowLocation extends StatefulWidget {
 
 class _ShowLocationState extends State<ShowLocation> {
   GoogleMapController? _controller;
-  
+
   final Set<Marker> _markers = {};
- 
+
   @override
   Widget build(BuildContext context) {
     getAddressFromLatLong( widget.lat, widget.long).then((value) => Text(value));
@@ -45,7 +44,7 @@ class _ShowLocationState extends State<ShowLocation> {
                 markers: _markers,
               ),
             ),
-           
+
           ],
         ));
   }
@@ -55,5 +54,5 @@ Future<String> getAddressFromLatLong(double lat,double long )async {
     List<Placemark> placemarks = await placemarkFromCoordinates(lat,long);
     Placemark place = placemarks[0];
    return '${place.street}, ${place.subLocality}, ${place.locality}, ${place.postalCode}, ${place.country}';
-    
+
   }

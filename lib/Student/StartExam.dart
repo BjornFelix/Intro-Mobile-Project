@@ -1,25 +1,19 @@
-import 'dart:developer';
-import 'dart:html';
-import 'package:location/location.dart';
-import 'package:firstapp/Student/MakeExam.dart';
-import 'package:firstapp/Student/SelectQuestion.dart';
 import 'package:firstapp/Student/SelectStudent.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:csv/csv.dart' as csv;
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:geolocator/geolocator.dart';
+
+import 'MakeExam.dart';
 
 class StartExam extends StatefulWidget {
   const StartExam({Key? key, required this.student}) : super(key: key);
 
   final Student student;
+
   @override
   State<StartExam> createState() => _StartExamState();
 }
 
 class _StartExamState extends State<StartExam> {
-  Location locationService = new Location();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,17 +39,21 @@ class _StartExamState extends State<StartExam> {
               Row(
                 children: [
                   ElevatedButton(
-                    onPressed: () {
-                      LocationData currentLocation = checkServiceEnabled(locationService).then((value) =>   Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => MakeExam(
-                                  exam: Exam(
-                                      studentId: widget.student.id,
-                                      studentAnswers: [], lat: value!.latitude, long: value.longitude),
-                                )),
-                      )) as LocationData;
-                     
+                    onPressed: () async {
+                      Position position = await _determinePosition();
+                      print(position);
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) =>
+                              MakeExam(
+                                exam: Exam(
+                                    studentId: widget.student.id,
+                                    studentAnswers: [],
+                                    lat: position.latitude,
+                                    long: position.longitude),
+                              ))
+                      )
+                      ;
                     },
                     child: const Text('Start Examen'),
                     style: ElevatedButton.styleFrom(
@@ -69,39 +67,41 @@ class _StartExamState extends State<StartExam> {
           ),
         ));
   }
-}
 
- Future<LocationData?> checkServiceEnabled(Location location) async {
-  var serviceEnabled = await location.serviceEnabled();
-  if (!serviceEnabled) {
-    serviceEnabled = await location.requestService();
-    if (serviceEnabled) {
-     return askPermission(location);
+  Future<Position> _determinePosition() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    // Test if location services are enabled.
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      // Location services are not enabled don't continue
+      // accessing the position and request users of the
+      // App to enable the location services.
+      return Future.error('Location services are disabled.');
     }
+
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        // Permissions are denied, next time you could try
+        // requesting permissions again (this is also where
+        // Android's shouldShowRequestPermissionRationale
+        // returned true. According to Android guidelines
+        // your App should show an explanatory UI now.
+        return Future.error('Location permissions are denied');
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      // Permissions are denied forever, handle appropriately.
+      return Future.error(
+          'Location permissions are permanently denied, we cannot request permissions.');
+    }
+
+    // When we reach here, permissions are granted and we can
+    // continue accessing the position of the device.
+    return await Geolocator.getCurrentPosition();
   }
-  if (serviceEnabled) {
-     return askPermission(location);
-    }
-    return null;
-  
-}
-
-Future<LocationData?> askPermission(Location location) async {
-  var _permissionGranted = await location.hasPermission();
-  if (_permissionGranted == PermissionStatus.denied) {
-    _permissionGranted = await location.requestPermission();
-    if (_permissionGranted == PermissionStatus.granted) {
-       return getLocation(location);
-    }
-  }
-   if (_permissionGranted == PermissionStatus.granted) {
-       return getLocation(location);
-    }
-    return null;
-}
-
-Future<LocationData> getLocation(Location location) async {
-  var currentLocation = await location.getLocation();
-  print(currentLocation.toString());
-  return currentLocation;
 }

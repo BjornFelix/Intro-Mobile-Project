@@ -115,7 +115,7 @@ class _CreateExamState extends State<CreateExam> {
         ));
   }
 
-  CollectionReference students = FirebaseFirestore.instance.collection('Exam');
+  CollectionReference students = FirebaseFirestore.instance.collection('questions');
   // ignore: non_constant_identifier_names
   Future<void> AddQuestion(List question) {
     if (question.isEmpty) {

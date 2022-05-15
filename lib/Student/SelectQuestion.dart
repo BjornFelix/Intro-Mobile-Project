@@ -1,10 +1,5 @@
-import 'dart:developer';
-
 import 'package:firstapp/Student/SelectStudent.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:csv/csv.dart' as csv;
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class SelectQuestion extends StatefulWidget {
@@ -53,7 +48,7 @@ class _SelectQuestionState extends State<SelectQuestion> {
 
 // ignore: non_constant_identifier_names
   Stream<List<Question>> getQuestions() {
-    return FirebaseFirestore.instance.collection('questions').snapshots().map(
+    return FirebaseFirestore.instance.collection('Exam').snapshots().map(
         (snapshot) => snapshot.docs
             .map((doc) => Question.fromJson(doc.data(), doc.id))
             .toList());
