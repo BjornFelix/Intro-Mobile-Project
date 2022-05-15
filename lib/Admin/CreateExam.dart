@@ -147,9 +147,13 @@ getQuestions().then((value) => print(value) );
                   ElevatedButton(
                     child: const Text("Examen indienen"),
                     onPressed: () {
+                      int totalPoints = 0;
+                      for (var i = 0; i < widget.list.length; i++) {
+                        totalPoints += widget.list[i].points;
+                      }
                       for (var i = 0; i < widget.list.length; i++) {
                         try {
-                          AddQuestion(widget.list[i]);
+                          AddQuestion(widget.list[i], totalPoints);
                         } catch (e) {
                           showToast("Mislukt vraag toe te voegen");
                         }
@@ -202,7 +206,12 @@ getQuestions().then((value) => print(value) );
   CollectionReference questions =
       FirebaseFirestore.instance.collection('questions');
   // ignore: non_constant_identifier_names
-  Future<void> AddQuestion(Question question) async {
-    questions.add(question.toJson());
+  Future<void> AddQuestion(Question question, int points) async {
+    if(points >= 20) {
+
+    }
+    else {
+      questions.add(question.toJson());
+    }
   }
 }
