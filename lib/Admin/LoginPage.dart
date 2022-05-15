@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'AdminHome.dart';
 
@@ -88,11 +88,30 @@ class _LoginWidgetState extends State<LoginWidget> {
   }
 
   Future signIn() async {
+    try{
     await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: emailController.text.trim(),
-        password: passwordController.text.trim());
+        password: passwordController.text.trim());}catch(err){
+          
+          showToast("Login failed");
+        }
   }
 }
+
+void showToast(String message){
+Fluttertoast.showToast(
+        msg: message,
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0
+    );
+}
+
+
+
 
 class LoginPage extends StatelessWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -103,9 +122,12 @@ class LoginPage extends StatelessWidget {
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
+            showToast("Sccesfull login");
             return const AdminRoute();
           } else {
+           
             return const LoginWidget();
+          
           }
         });
   }

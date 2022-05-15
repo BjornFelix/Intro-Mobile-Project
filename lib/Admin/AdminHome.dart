@@ -1,3 +1,4 @@
+import 'package:firstapp/Admin/SelectStudent.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -50,6 +51,19 @@ class AdminRoute extends StatelessWidget {
                   style: ElevatedButton.styleFrom(
                       primary: Colors.red[800],
                       padding: const EdgeInsets.fromLTRB(338.0, 75.0, 338.0, 75.0)),
+                ),
+                 ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const SelectStudent()),
+                    );
+                  },
+                  child: const Text('Examen verbeteren'),
+                  style: ElevatedButton.styleFrom(
+                      primary: Colors.red[800],
+                      padding: const EdgeInsets.fromLTRB(315.0, 75.0, 315.0, 75.0)),
                 ),
                 ElevatedButton(
                   onPressed: () {

@@ -1,5 +1,6 @@
+import 'package:firstapp/HomePage.dart';
 import 'package:flutter/material.dart';
-
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class ChangePasswordWidget extends StatefulWidget {
@@ -73,7 +74,11 @@ class _ChangePasswordWidgetState extends State<ChangePasswordWidget> {
                           minimumSize: const Size.fromHeight(50)),
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
-                          updatePAssword();
+                          updatePAssword()
+                              .then((value) => showToast("Updated password")).then((value) =>  Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const MyHomePage(title: 'Home',)),
+                    ));
                         }
                       },
                       icon: const Icon(
@@ -89,12 +94,26 @@ class _ChangePasswordWidgetState extends State<ChangePasswordWidget> {
             )));
   }
 
+  void showToast(String message) {
+    Fluttertoast.showToast(
+        msg: message,
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0);
+  }
+
   Future updatePAssword() async {
     if (passwordController.text.trim() == repeatController.text.trim()) {
-      await FirebaseAuth.instance.currentUser!
-          .updatePassword(passwordController.text.trim());
-
-      FirebaseAuth.instance.signOut();
+      try {
+        await FirebaseAuth.instance.currentUser!
+            .updatePassword(passwordController.text.trim());
+        FirebaseAuth.instance.signOut();
+      } catch (e) {
+        showToast("Failed to update password");
+      }
     }
   }
 }

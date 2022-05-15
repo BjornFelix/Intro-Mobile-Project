@@ -1,5 +1,7 @@
+import 'package:firstapp/Student/AnswerQuestion.dart';
 import 'package:firstapp/Student/SelectStudent.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -8,14 +10,31 @@ import 'AddQuestion.dart';
 import 'AdminHome.dart';
 
 class CreateExam extends StatefulWidget {
-  const CreateExam({Key? key, required this.list, }) : super(key: key);
+  const CreateExam({
+    Key? key,
+    required this.list,
+  }) : super(key: key);
 
-  final List<List> list;
+  final List<Question> list;
+
   @override
   State<CreateExam> createState() => _CreateExamState();
 }
 
 class _CreateExamState extends State<CreateExam> {
+  List<Question> dbquestion=[];
+  
+
+  @override
+  void initState() {
+   
+   
+ 
+getQuestions().then((value) => print(value) );
+    super.initState();
+   
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,12 +43,41 @@ class _CreateExamState extends State<CreateExam> {
           title: const Text('Add exam questions'),
           actions: [
             ElevatedButton(
-                onPressed: () => FirebaseAuth.instance.signOut(),
+                onPressed: () =>{ FirebaseAuth.instance.signOut().then((value) =>   Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                const AdminRoute()),
+                      ))},
                 child: const Text("Sign out")),
           ],
         ),
         body: Column(
           children: <Widget>[
+            Expanded(
+              child: ListView.builder(
+                  padding: const EdgeInsets.all(8),
+                  itemCount: dbquestion.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Container(
+                        height: 50,
+                        margin: const EdgeInsets.all(2),
+                        color: Colors.grey[400],
+                        child: Row(
+                          children: [
+                            Center(
+                                child: Text(
+                              'Question: ${dbquestion[index].question}    ${dbquestion[index].answer} ',
+                              style: const TextStyle(fontSize: 18),
+                            )),
+                            ElevatedButton.icon(
+                                onPressed: deleteDBQuestion(dbquestion[index]),
+                                icon: const Icon(Icons.delete),
+                                label: const Text("Delete"))
+                          ],
+                        ));
+                  }),
+            ),
             Expanded(
               child: ListView.builder(
                   padding: const EdgeInsets.all(8),
@@ -41,9 +89,9 @@ class _CreateExamState extends State<CreateExam> {
                       color: Colors.grey[400],
                       child: Center(
                           child: Text(
-                            'Question: ${widget.list[index][0]}               ${widget.list[index][1]} ',
-                            style: const TextStyle(fontSize: 18),
-                          )),
+                        'Question: ${widget.list[index].question}       ${widget.list[index].answer} ',
+                        style: const TextStyle(fontSize: 18),
+                      )),
                     );
                   }),
             ),
@@ -100,8 +148,13 @@ class _CreateExamState extends State<CreateExam> {
                     child: const Text("Submit exam"),
                     onPressed: () {
                       for (var i = 0; i < widget.list.length; i++) {
-                        AddQuestion(widget.list[i]);
+                        try {
+                          AddQuestion(widget.list[i]);
+                        } catch (e) {
+                          showToast("Failed to add question");
+                        }
                       }
+                      showToast("Exam was added succesfully");
                       Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -115,26 +168,41 @@ class _CreateExamState extends State<CreateExam> {
         ));
   }
 
-  CollectionReference students = FirebaseFirestore.instance.collection('questions');
+  void showToast(String message) {
+    Fluttertoast.showToast(
+        msg: message,
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0);
+  }
+
+  deleteDBQuestion(Question question) {
+    FirebaseFirestore.instance
+        .collection('questions')
+        .doc(question.id)
+        .delete();
+  }
+
+ Future<List<Question>> getQuestions() async  {
+ List<Question> questionsList= [];
+    Stream<List<Question>> questions = FirebaseFirestore.instance
+        .collection('questions')
+        .snapshots()
+        .map((snapshot) => snapshot.docs
+            .map((doc) => Question.fromJson(doc.data(), doc.id))
+            .toList());
+           return  questions.elementAt(0);
+
+  }
+
+
+  CollectionReference questions =
+      FirebaseFirestore.instance.collection('questions');
   // ignore: non_constant_identifier_names
-  Future<void> AddQuestion(List question) {
-    if (question.isEmpty) {
-      throw ("Failed to add Question");
-    }
-    if (question[1] == ' ' || question[1] == null) {
-      return students.add({
-        'Question': question[0],
-      }).catchError((error) => throw ("Failed to add user: $error"));
-    } else if (question[2] == null) {
-      return students
-          .add({'Question': question[0], 'Answer': question[1]}).catchError(
-              (error) => throw ("Failed to add user: $error"));
-    } else {
-      return students.add({
-        'Question': question[0],
-        'Answer': question[1],
-        'Options': question[2]
-      }).catchError((error) => throw ("Failed to add user: $error"));
-    }
+  Future<void> AddQuestion(Question question) async {
+    questions.add(question.toJson());
   }
 }
