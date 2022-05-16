@@ -63,7 +63,7 @@ class _MakeExamState extends State<MakeExam> with WidgetsBindingObserver {
   @override
   initState() {
     super.initState();
-    startTimer();
+   // startTimer();
     WidgetsBinding.instance?.addObserver(this);
   }
 
@@ -212,7 +212,7 @@ class StudentAnswer {
   static StudentAnswer fromJson(Map<String, dynamic> json, String id) {
     return StudentAnswer(
       id: id,
-      question: json['question'],
+      question: Question.fromJson(json['question'],''),
       answer: json['answer'],
     );
   }
@@ -220,7 +220,7 @@ class StudentAnswer {
 
 class Exam {
   final String studentId;
-  final List<StudentAnswer> studentAnswers;
+  final List<dynamic> studentAnswers;
   final double? lat;
   final double? long;
   final int score;

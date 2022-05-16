@@ -49,7 +49,7 @@ class _AddStudentsState extends State<AddStudents> {
                     cursorColor: Colors.black,
                     textInputAction: TextInputAction.done,
                     decoration: const InputDecoration(
-                        labelText: "Voeg csv hier toe ( voornaam, naam, s-nummer)"),
+                        labelText: "Voeg csv hier toe ( voornaam; naam; s-nummer)"),
                     minLines: 6,
                     keyboardType: TextInputType.multiline,
                     maxLines: null,
@@ -89,7 +89,7 @@ class _AddStudentsState extends State<AddStudents> {
 
   List<List> csvToList(String string) {
     csv.CsvToListConverter c =
-        const csv.CsvToListConverter(eol: "\n", fieldDelimiter: ",");
+        const csv.CsvToListConverter(eol: "\n", fieldDelimiter: ";");
     List<List> listcreated = c.convert(string);
 
     return listcreated;

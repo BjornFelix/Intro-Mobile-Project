@@ -40,9 +40,9 @@ class _CorrectExamState extends State<CorrectExam> {
               return const Text('Een fout heeft zich plaatsgevonden');
             } else if (snapshot.hasData) {
               final exam = snapshot.data!;
-              final answers = exam[0].studentAnswers;
+              final List<dynamic> answers = exam[0].studentAnswers;
               return ListView(
-                  children: answers.map((e) => buildExam(e.toJson())).toList());
+                  children: answers.map((e) => buildExam(e)).toList());
             } else {
               return const Center(
                 child: CircularProgressIndicator(),
@@ -53,7 +53,10 @@ class _CorrectExamState extends State<CorrectExam> {
   }
 
   Widget buildExam(Map<String, dynamic> answer) {
+    print("hier");
+    print(answer);
     StudentAnswer ans = StudentAnswer.fromJson(answer, '');
+
     int points = ans.question.points;
 
     if (ans.question.type == 'CQ' ||
@@ -64,17 +67,16 @@ class _CorrectExamState extends State<CorrectExam> {
         return ListTile(
             title: Text(ans.question.question),
             subtitle:
-                Text(ans.answer + points.toString() + "/" + points.toString()));
+                Text(ans.answer +"       "+ points.toString() + "/" + points.toString()));
       } else {
         return ListTile(
             title: Text(ans.question.question),
-            subtitle: Text(ans.answer + "0/" + ans.question.points.toString()));
+            subtitle: Text(ans.answer + "           0/" + ans.question.points.toString()));
       }
     }
     return ListTile(
-        onTap: () {},
         title: Text(ans.question.question),
-        subtitle: Text(ans.answer));
+        subtitle: Text(ans.answer));   
   }
 
   Future<List<Exam>> getExam() async {
@@ -82,12 +84,12 @@ class _CorrectExamState extends State<CorrectExam> {
     var querySnapshot = await collection.get();
     List<Exam> result = [];
     for (var queryDocumentSnapshot in querySnapshot.docs) {
-      print(queryDocumentSnapshot.data());
       Map<String, dynamic> data = queryDocumentSnapshot.data();
-
-      data["studentId"] = queryDocumentSnapshot.id;
-print(queryDocumentSnapshot.data());
-      result.add(Exam.fromJson(data, queryDocumentSnapshot.id));
+      print(data);
+      List<dynamic> list = data['studentAnswers'];
+     
+      print(list);
+    result.add(Exam.fromJson(data, queryDocumentSnapshot.id));
     }
 
     return result;
