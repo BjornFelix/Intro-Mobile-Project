@@ -76,7 +76,7 @@ class _AnswerQuestionState extends State<AnswerQuestion>
     } else if (question.type == 'MC') {
       return showMultipleChoiceQuestion(
           answerController, question, context, examin, counter);
-    } else if (question.type == 'CD') {
+    } else if (question.type == 'CC') {
       return showCodeCorrection(
           answerController, question, context, examin, counter);
     }

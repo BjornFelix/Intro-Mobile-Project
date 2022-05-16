@@ -18,47 +18,44 @@ class MakeExam extends StatefulWidget {
   @override
   State<MakeExam> createState() => _MakeExamState();
 }
+
 late Timer _timer;
 
 class _MakeExamState extends State<MakeExam> with WidgetsBindingObserver {
-  void startTimer(){
-    try{
+  void startTimer() {
+    try {
       if (_timer != null) {
         _timer.cancel();
       }
       _timer = Timer.periodic(Duration(seconds: 2), (timer) {
         if (counter > 0) {
           counter--;
+        } else {
+          _timer.cancel;
+          addExam(widget.exam);
         }
-        else {
+      });
+    } catch (e) {
+      _timer = Timer.periodic(Duration(seconds: 2), (timer) {
+        if (counter > 0) {
+          counter--;
+        } else {
           _timer.cancel;
           addExam(widget.exam);
         }
       });
     }
-    catch(e){
-    _timer= Timer.periodic(Duration(seconds:2), (timer)
-    {
-    if (counter > 0) {
-    counter--;
-    }
-    else {
-    _timer.cancel;
-    addExam(widget.exam);
-    }
-    });
-    }
 
-   _timer= Timer.periodic(Duration(seconds:2), (timer) {
-      if(counter>0){
+    _timer = Timer.periodic(Duration(seconds: 2), (timer) {
+      if (counter > 0) {
         counter--;
-      }
-      else{
+      } else {
         _timer.cancel;
         addExam(widget.exam);
       }
     });
   }
+
   int closedAppCounter = 0;
   @override
   initState() {
@@ -95,7 +92,7 @@ class _MakeExamState extends State<MakeExam> with WidgetsBindingObserver {
           backgroundColor: Colors.red[800],
           title: Row(
             children: [
-               Text('Select Question   ' + counter.toString()),
+              Text('Select Question   ' + counter.toString()),
               ElevatedButton(
                   onPressed: () {
                     Navigator.push(
@@ -189,7 +186,6 @@ class _MakeExamState extends State<MakeExam> with WidgetsBindingObserver {
   CollectionReference examColl = FirebaseFirestore.instance.collection('exams');
 
   Future<void> addExam(Exam exam) {
-    debugPrint("test");
     exam.leftExam = widget.counter;
     return examColl
         .add(exam.toJson())
@@ -238,10 +234,10 @@ class Exam {
       required this.long,
       this.score = 0,
       this.corrected = false,
-      this.leftExam=0});
+      this.leftExam = 0});
 
   Map<String, dynamic> toJson() {
-    List<Map<String,dynamic>> studentjson=[];
+    List<Map<String, dynamic>> studentjson = [];
     for (var element in studentAnswers) {
       studentjson.add(element.toJson());
     }
@@ -254,7 +250,7 @@ class Exam {
       'longitude': long,
       'score': score,
       'corrected': corrected,
-      'leftExam':leftExam
+      'leftExam': leftExam
     };
   }
 
