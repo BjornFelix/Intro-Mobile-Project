@@ -1,6 +1,11 @@
+import 'dart:async';
+
 import 'package:firstapp/Student/MakeExam.dart';
 import 'package:flutter/material.dart';
 import 'package:csv/csv.dart' as csv;
+
+import '../HomePage.dart';
+import 'StartExam.dart';
 
 class AnswerQuestion extends StatefulWidget {
   const AnswerQuestion(
@@ -55,8 +60,8 @@ class _AnswerQuestionState extends State<AnswerQuestion>
         appBar: AppBar(
             backgroundColor: Colors.red[800],
             title: Row(
-              children: const [
-                Text('Answer Question'),
+              children: [
+                Text('Answer Question   ' + counter.toString() + "s"),
               ],
             )),
         body: checkQuestionType(answerController, widget.question, context,
