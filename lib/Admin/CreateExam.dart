@@ -12,7 +12,7 @@ import 'AdminHome.dart';
 class CreateExam extends StatefulWidget {
   const CreateExam({
     Key? key,
-    required this.list,
+    required this.list
   }) : super(key: key);
 
   final List<Question> list;
@@ -23,11 +23,14 @@ class CreateExam extends StatefulWidget {
 
 class _CreateExamState extends State<CreateExam> {
   List<Question> dbquestion=[];
-  
+  int totalPoints=0;
 
   @override
   void initState() {
-   
+   for (var i = 0; i < widget.list.length; i++) {
+                            totalPoints += widget.list[i].points;
+                            print(totalPoints);
+                          }
    
  
 getQuestions().then((value) => print(value) );
@@ -54,6 +57,7 @@ getQuestions().then((value) => print(value) );
         ),
         body: Column(
           children: <Widget>[
+            Text(totalPoints.toString()+"/20"),
             Expanded(
               child: ListView.builder(
                   padding: const EdgeInsets.all(8),
