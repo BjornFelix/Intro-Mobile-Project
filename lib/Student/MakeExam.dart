@@ -4,6 +4,9 @@ import 'package:firstapp/Student/ShowLocation.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'dart:async';
+
+import 'StartExam.dart';
 
 class MakeExam extends StatefulWidget {
   const MakeExam({Key? key, required this.exam, required this.counter})
@@ -15,13 +18,52 @@ class MakeExam extends StatefulWidget {
   @override
   State<MakeExam> createState() => _MakeExamState();
 }
+late Timer _timer;
 
 class _MakeExamState extends State<MakeExam> with WidgetsBindingObserver {
-  int closedAppCounter = 0;
+  void startTimer(){
+    try{
+      if (_timer != null) {
+        _timer.cancel();
+      }
+      _timer = Timer.periodic(Duration(seconds: 2), (timer) {
+        if (counter > 0) {
+          counter--;
+        }
+        else {
+          _timer.cancel;
+          addExam(widget.exam);
+        }
+      });
+    }
+    catch(e){
+    _timer= Timer.periodic(Duration(seconds:2), (timer)
+    {
+    if (counter > 0) {
+    counter--;
+    }
+    else {
+    _timer.cancel;
+    addExam(widget.exam);
+    }
+    });
+    }
 
+   _timer= Timer.periodic(Duration(seconds:2), (timer) {
+      if(counter>0){
+        counter--;
+      }
+      else{
+        _timer.cancel;
+        addExam(widget.exam);
+      }
+    });
+  }
+  int closedAppCounter = 0;
   @override
   initState() {
     super.initState();
+    startTimer();
     WidgetsBinding.instance?.addObserver(this);
   }
 
@@ -53,7 +95,7 @@ class _MakeExamState extends State<MakeExam> with WidgetsBindingObserver {
           backgroundColor: Colors.red[800],
           title: Row(
             children: [
-              const Text('Select Question'),
+               Text('Select Question   ' + counter.toString()),
               ElevatedButton(
                   onPressed: () {
                     Navigator.push(
@@ -147,6 +189,7 @@ class _MakeExamState extends State<MakeExam> with WidgetsBindingObserver {
   CollectionReference examColl = FirebaseFirestore.instance.collection('exams');
 
   Future<void> addExam(Exam exam) {
+    debugPrint("test");
     exam.leftExam = widget.counter;
     return examColl
         .add(exam.toJson())

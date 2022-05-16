@@ -1,7 +1,11 @@
+import 'dart:async';
+
 import 'package:firstapp/Student/SelectStudent.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 
+import '../Admin/LoginPage.dart';
+import '../HomePage.dart';
 import 'MakeExam.dart';
 
 class StartExam extends StatefulWidget {
@@ -12,11 +16,18 @@ class StartExam extends StatefulWidget {
   @override
   State<StartExam> createState() => _StartExamState();
 }
+int counter = 3;
 
 class _StartExamState extends State<StartExam> {
   var _isLoading = false;
 
+  @override
+  initState(){
+    super.initState();
+  }
+
   Future<void> _onSubmit() async {
+    debugPrint("stop");
     setState(() => _isLoading = true);
 
     Position position = await _determinePosition();

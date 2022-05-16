@@ -1,4 +1,5 @@
 import 'package:firstapp/Admin/SelectStudent.dart';
+import 'package:firstapp/HomePage.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -12,7 +13,13 @@ class AdminRoute extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: () async => false,
+        onWillPop: () async {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => const MyHomePage(title: 'Home')));
+          return false;
+        },
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.red[800],
