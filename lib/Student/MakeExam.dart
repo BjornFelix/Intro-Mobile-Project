@@ -31,8 +31,13 @@ class _MakeExamState extends State<MakeExam> with WidgetsBindingObserver {
           counter--;
         }
         else {
-          _timer.cancel;
+          _timer.cancel();
           addExam(widget.exam);
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) =>
+                  const MyHomePage(title: "Home")));
         }
       });
     }
@@ -45,19 +50,14 @@ class _MakeExamState extends State<MakeExam> with WidgetsBindingObserver {
     else {
     _timer.cancel;
     addExam(widget.exam);
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) =>
+            const MyHomePage(title: "Home")));
     }
     });
     }
-
-   _timer= Timer.periodic(Duration(seconds:2), (timer) {
-      if(counter>0){
-        counter--;
-      }
-      else{
-        _timer.cancel;
-        addExam(widget.exam);
-      }
-    });
   }
   int closedAppCounter = 0;
   @override
@@ -95,7 +95,7 @@ class _MakeExamState extends State<MakeExam> with WidgetsBindingObserver {
           backgroundColor: Colors.red[800],
           title: Row(
             children: [
-               Text('Select Question   ' + counter.toString()),
+               Text('Select Question   ' + counter.toString() + 's'),
               ElevatedButton(
                   onPressed: () {
                     Navigator.push(
@@ -189,7 +189,6 @@ class _MakeExamState extends State<MakeExam> with WidgetsBindingObserver {
   CollectionReference examColl = FirebaseFirestore.instance.collection('exams');
 
   Future<void> addExam(Exam exam) {
-    debugPrint("test");
     exam.leftExam = widget.counter;
     return examColl
         .add(exam.toJson())

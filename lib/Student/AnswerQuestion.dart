@@ -81,7 +81,7 @@ class _AnswerQuestionState extends State<AnswerQuestion>
           answerController, question, context, examin, counter);
     }
 
-    return showOpenQuestion(
+    return showClosedQuestion(
         answerController, question, context, examin, counter);
   }
 

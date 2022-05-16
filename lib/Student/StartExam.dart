@@ -16,7 +16,7 @@ class StartExam extends StatefulWidget {
   @override
   State<StartExam> createState() => _StartExamState();
 }
-int counter = 3;
+int counter = 10;
 
 class _StartExamState extends State<StartExam> {
   var _isLoading = false;

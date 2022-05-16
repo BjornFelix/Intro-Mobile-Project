@@ -14,8 +14,9 @@ class SelectQuestion extends StatefulWidget {
 
 class _SelectQuestionState extends State<SelectQuestion> {
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
+  Widget build(BuildContext context) {return WillPopScope(
+      onWillPop: () async => false,
+    child: Scaffold(
       appBar: AppBar(
           backgroundColor: Colors.red[800],
           title: Row(
@@ -39,7 +40,7 @@ class _SelectQuestionState extends State<SelectQuestion> {
               );
             }
           }),
-    );
+    ));
   }
 
   Widget buildQuestion(Question question) {
