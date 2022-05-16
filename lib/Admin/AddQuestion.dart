@@ -108,6 +108,7 @@ class _AddMultipleChoiceQuestionState extends State<AddMultipleChoiceQuestion> {
                           int totalPoints = 0;
                           for (var i = 0; i < nList.length; i++) {
                             totalPoints += nList[i].points;
+                            print(totalPoints);
                           }
                           if(totalPoints>=20) {
                             showToast("Vraag toevoegen is mislukt, totaal aantal punten bereikt");
@@ -126,7 +127,7 @@ class _AddMultipleChoiceQuestionState extends State<AddMultipleChoiceQuestion> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => CreateExam(list: nList)),
+                                builder: (context) => CreateExam(list: nList,)),
                           );
                         }
                       },
@@ -218,6 +219,7 @@ class _AddOpenQuestionState extends State<AddOpenQuestion> {
                           int totalPoints = 0;
                           for (var i = 0; i < nList.length; i++) {
                             totalPoints += nList[i].points;
+                             print(totalPoints);
                           }
                           if(totalPoints>=20) {
                             showToast("Vraag toevoegen is mislukt, totaal aantal punten bereikt");
@@ -236,7 +238,7 @@ class _AddOpenQuestionState extends State<AddOpenQuestion> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => CreateExam(list: nList)),
+                                builder: (context) => CreateExam(list: nList, )),
                           );
                         }
                       },
@@ -334,6 +336,7 @@ class _AddClosedQuestionState extends State<AddClosedQuestion> {
                           int totalPoints = 0;
                           for (var i = 0; i < nList.length; i++) {
                             totalPoints += nList[i].points;
+                             print(totalPoints);
                           }
                           if(totalPoints>=20) {
                             showToast("Vraag toevoegen is mislukt, totaal aantal punten bereikt");
@@ -351,7 +354,7 @@ class _AddClosedQuestionState extends State<AddClosedQuestion> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => CreateExam(list: nList)),
+                                builder: (context) => CreateExam(list: nList, )),
                           );
                         }
                       },
@@ -415,6 +418,7 @@ class _AddCodeCorrectionState extends State<AddCodeCorrection> {
               int totalPoints = 0;
               for (var i = 0; i < nList.length; i++) {
                 totalPoints += nList[i].points;
+                 print(totalPoints);
               }
               if(totalPoints>=20) {
                 showToast("Vraag toevoegen is mislukt, totaal aantal punten bereikt");
@@ -432,7 +436,7 @@ class _AddCodeCorrectionState extends State<AddCodeCorrection> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => CreateExam(list: nList)),
+                    builder: (context) => CreateExam(list: nList,)),
               );
             }
           },
@@ -468,6 +472,7 @@ class _AddCodeCorrectionState extends State<AddCodeCorrection> {
                     return 'Vul tekst in';
                   }
                   return null;
+
                 },
                 controller: answerController,
                 cursorColor: Colors.black,
