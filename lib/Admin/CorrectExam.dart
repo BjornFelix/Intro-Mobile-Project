@@ -86,10 +86,10 @@ class _CorrectExamState extends State<CorrectExam> {
       Map<String, dynamic> data = queryDocumentSnapshot.data();
 
       data["studentId"] = queryDocumentSnapshot.id;
-
+print(queryDocumentSnapshot.data());
       result.add(Exam.fromJson(data, queryDocumentSnapshot.id));
     }
-    print("hier");
+
     return result;
   }
 }
