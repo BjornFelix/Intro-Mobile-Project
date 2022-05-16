@@ -334,7 +334,27 @@ class _AnswerQuestionState extends State<AnswerQuestion>
     StudentAnswer answerQuestion =
         StudentAnswer(question: question, answer: studentAnswer);
     answerQuestion.toJson();
-    updatedExam.studentAnswers.add(answerQuestion);
+    bool made = false;
+    int index = 0;
+    for (var item in updatedExam.studentAnswers) {
+      if (item.question.id == answerQuestion.question.id) {
+        made = true;
+      }
+    }
+    for (var i = 0; i < updatedExam.studentAnswers.length; i++) {
+      if (updatedExam.studentAnswers[i].question.id ==
+          answerQuestion.question.id) {
+        index = i;
+        made = true;
+      }
+    }
+
+    if (made) {
+      updatedExam.studentAnswers[index] = answerQuestion;
+    } else {
+      updatedExam.studentAnswers.add(answerQuestion);
+    }
+
     return updatedExam;
   }
 }
