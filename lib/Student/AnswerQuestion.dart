@@ -41,7 +41,7 @@ class _AnswerQuestionState extends State<AnswerQuestion>
         state == AppLifecycleState.detached) {
       return;
     }
-    final isbackGround = state == AppLifecycleState.paused;
+    final isbackGround = state == AppLifecycleState.resumed;
     if (isbackGround) {
       closedAppCounter += 1;
     }

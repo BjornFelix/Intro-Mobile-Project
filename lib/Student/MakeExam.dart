@@ -76,6 +76,7 @@ class _MakeExamState extends State<MakeExam> with WidgetsBindingObserver {
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
+    print("iets gebeurt");
     if (state == AppLifecycleState.inactive ||
         state == AppLifecycleState.detached) {
       return;
@@ -200,13 +201,15 @@ class StudentAnswer {
   String id;
   final Question question;
   final String answer;
+  late int score;
 
-  StudentAnswer({this.id = ' ', required this.question, this.answer = ' '});
+  StudentAnswer({this.id = ' ', required this.question, this.answer = ' ',this.score=-1});
 
   Map<String, dynamic> toJson() => {
         'id': id,
         'question': question.toJson(),
         'answer': answer,
+        'score':score
       };
 
   static StudentAnswer fromJson(Map<String, dynamic> json, String id) {
@@ -214,17 +217,18 @@ class StudentAnswer {
       id: id,
       question: Question.fromJson(json['question'],''),
       answer: json['answer'],
+      score:json['score']
     );
   }
 }
 
 class Exam {
   final String studentId;
-  final List<dynamic> studentAnswers;
+  late List<dynamic> studentAnswers;
   final double? lat;
   final double? long;
-  final int score;
-  final bool corrected;
+  late int score;
+  late bool corrected;
   late int leftExam;
 
   String id;
@@ -240,15 +244,13 @@ class Exam {
       this.leftExam=0});
 
   Map<String, dynamic> toJson() {
-    List<Map<String,dynamic>> studentjson=[];
-    for (var element in studentAnswers) {
-      studentjson.add(element.toJson());
-    }
+ 
+   
 
     return {
       'id': id,
       'studentId': studentId,
-      'studentAnswers': studentjson,
+      'studentAnswers': studentAnswers,
       'latitude': lat,
       'longitude': long,
       'score': score,

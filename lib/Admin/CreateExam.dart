@@ -10,10 +10,7 @@ import 'AddQuestion.dart';
 import 'AdminHome.dart';
 
 class CreateExam extends StatefulWidget {
-  const CreateExam({
-    Key? key,
-    required this.list
-  }) : super(key: key);
+  const CreateExam({Key? key, required this.list}) : super(key: key);
 
   final List<Question> list;
 
@@ -22,20 +19,18 @@ class CreateExam extends StatefulWidget {
 }
 
 class _CreateExamState extends State<CreateExam> {
-  List<Question> dbquestion=[];
-  int totalPoints=0;
+  List<Question> dbquestion = [];
+  int totalPoints = 0;
 
   @override
   void initState() {
-   for (var i = 0; i < widget.list.length; i++) {
-                            totalPoints += widget.list[i].points;
-                            print(totalPoints);
-                          }
-   
- 
-getQuestions().then((value) => print(value) );
+    for (var i = 0; i < widget.list.length; i++) {
+      totalPoints += widget.list[i].points;
+      print(totalPoints);
+    }
+
+    getQuestions().then((value) => print(value));
     super.initState();
-   
   }
 
   @override
@@ -46,18 +41,21 @@ getQuestions().then((value) => print(value) );
           title: const Text('Voeg examen vragen toe'),
           actions: [
             ElevatedButton(
-                onPressed: () =>{ FirebaseAuth.instance.signOut().then((value) =>   Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                const AdminRoute()),
-                      ))},
+                onPressed: () => {
+                      FirebaseAuth.instance
+                          .signOut()
+                          .then((value) => Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const AdminRoute()),
+                              ))
+                    },
                 child: const Text("Log uit")),
           ],
         ),
         body: Column(
           children: <Widget>[
-            Text(totalPoints.toString()+"/20"),
+            Text(totalPoints.toString() + "/20"),
             Expanded(
               child: ListView.builder(
                   padding: const EdgeInsets.all(8),
@@ -194,27 +192,23 @@ getQuestions().then((value) => print(value) );
         .delete();
   }
 
- Future<List<Question>> getQuestions() async  {
- List<Question> questionsList= [];
+  Future<List<Question>> getQuestions() async {
+    List<Question> questionsList = [];
     Stream<List<Question>> questions = FirebaseFirestore.instance
         .collection('questions')
         .snapshots()
         .map((snapshot) => snapshot.docs
             .map((doc) => Question.fromJson(doc.data(), doc.id))
             .toList());
-           return  questions.elementAt(0);
-
+    return questions.elementAt(0);
   }
-
 
   CollectionReference questions =
       FirebaseFirestore.instance.collection('questions');
   // ignore: non_constant_identifier_names
   Future<void> AddQuestion(Question question, int points) async {
-    if(points >= 20) {
-
-    }
-    else {
+    if (points >= 20) {
+    } else {
       questions.add(question.toJson());
     }
   }
