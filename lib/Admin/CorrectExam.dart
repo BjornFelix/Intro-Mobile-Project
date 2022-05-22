@@ -199,7 +199,7 @@ Future<void> updateExam(Exam exam) {
 
   return exams
     .doc(exam.id)
-    .update(exam.toJson())
+    .update(exam.toJson2())
     .then((value) => showToast("Verbetering toegevoegd"))
     .catchError((error) => showToast("Failed to update exam: $error"));
 }

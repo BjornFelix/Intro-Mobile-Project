@@ -243,7 +243,27 @@ class Exam {
       this.corrected = false,
       this.leftExam=0});
 
-  Map<String, dynamic> toJson() {
+Map<String, dynamic> toJson() {
+ 
+  List<Map<String,dynamic>> studentjson=[];
+    for (var element in studentAnswers) {
+      studentjson.add(element.toJson());
+    }
+   
+
+    return {
+      'id': id,
+      'studentId': studentId,
+      'studentAnswers': studentjson,
+      'latitude': lat,
+      'longitude': long,
+      'score': score,
+      'corrected': corrected,
+      'leftExam':leftExam
+    };
+  }
+  Map<String, dynamic> toJson2() {
+ 
  
    
 
