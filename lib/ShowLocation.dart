@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:geocoding/geocoding.dart';
 
 class ShowLocation extends StatefulWidget {
   const ShowLocation({Key? key, required this.lat, required this.long})
@@ -10,16 +12,24 @@ class ShowLocation extends StatefulWidget {
   final double long;
 
   @override
-  _ShowLocationState createState() => _ShowLocationState();
+  _ShowLocationState createState() {
+    return _ShowLocationState();
+  }
 }
 
 class _ShowLocationState extends State<ShowLocation> {
+  String location = 'Null, Press Button';
+  String Address = 'search';
+
 
   @override
   Widget build(BuildContext context) {
+    GetAddressFromLatLong(widget.lat, widget.long);
     return Scaffold(
         appBar: AppBar(
-          title: const Text("Map"),
+
+          title: Text("Map  " + Address),
+
         ),
         body: FlutterMap(
           options: MapOptions(
@@ -41,9 +51,18 @@ class _ShowLocationState extends State<ShowLocation> {
                   height: 40.0,
                   point: LatLng(widget.lat, widget.long),
                   builder: (ctx) => const FlutterLogo(),
-                )],
+                )
+              ],
             ),
           ],
         ));
+  }
+
+  Future<void> GetAddressFromLatLong(double lat, double long) async {
+    List<Placemark> placemarks = await placemarkFromCoordinates(lat, long);
+    print(placemarks);
+    Placemark place = placemarks[0];
+    Address = '${place.street}, ${place.locality}, ${place.postalCode}, ${place.country}';
+    setState(() {});
   }
 }

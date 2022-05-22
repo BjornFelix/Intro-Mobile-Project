@@ -174,7 +174,7 @@ class _AnswerQuestionState extends State<AnswerQuestion>
                   if (value == null || value.isEmpty) {
                     return 'Please enter some text';
                   }
-                  return null;
+                  return 'null';
                 },
                 controller: answerController,
                 cursorColor: Colors.white,
@@ -191,8 +191,7 @@ class _AnswerQuestionState extends State<AnswerQuestion>
                         context,
                         MaterialPageRoute(
                             builder: (context) => MakeExam(
-                                  exam: updateExam(answerController.text.trim(),
-                                      examin, question),
+                                  exam: updateExam(answerController.text.trim(), examin, question),
                                   counter: widget.counter + closedAppCounter,
                                 )),
                       );
@@ -336,8 +335,7 @@ class _AnswerQuestionState extends State<AnswerQuestion>
     examin.studentAnswers.forEach((element) {
       updatedExam.studentAnswers.add(element);
     });
-    StudentAnswer answerQuestion =
-        StudentAnswer(question: question, answer: studentAnswer);
+    StudentAnswer answerQuestion = StudentAnswer(question: question, answer: studentAnswer);
     answerQuestion.toJson();
     bool made = false;
     int index = 0;
